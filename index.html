@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Incident App V3 Admin Users</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;--color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-divider:#dcd9d5;--color-text:#28251d;--color-text-muted:#7a7974;--color-text-inverse:#f9f8f4;--color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-highlight:#cedcd8;--color-success:#437a22;--color-warning:#964219;--color-error:#a12c7b;--color-blue:#006494;--shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 12px 32px rgba(0,0,0,.12);--font-body:'Satoshi',Inter,sans-serif}
+    [data-theme="dark"]{--color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-surface-offset:#1d1c1a;--color-border:#393836;--color-divider:#262523;--color-text:#cdccca;--color-text-muted:#979692;--color-text-inverse:#2b2a28;--color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#313b3b;--color-success:#6daa45;--color-warning:#bb653b;--color-error:#d163a7;--color-blue:#5591c7}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);background:var(--color-bg);color:var(--color-text);line-height:1.5}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer;border:none;background:none}:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:.375rem}.hidden{display:none!important}
+    .auth-gate{position:fixed;inset:0;display:grid;place-items:center;padding:1.5rem;background:color-mix(in oklab,var(--color-bg) 88%,transparent);backdrop-filter:blur(16px);z-index:100}.app{display:grid;grid-template-columns:260px 1fr;min-height:100dvh}.sidebar{background:var(--color-surface);border-right:1px solid var(--color-border);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-6)}.brand{display:flex;gap:var(--space-3);align-items:center}.brand-mark{width:42px;height:42px;border-radius:var(--radius-md);display:grid;place-items:center;background:linear-gradient(135deg,var(--color-primary-highlight),transparent),var(--color-surface-offset);color:var(--color-primary)}.brand h1{font-size:var(--text-lg);font-weight:700}.brand p,.small{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .nav{display:grid;gap:var(--space-2)}.nav button{display:flex;align-items:center;padding:.8rem 1rem;border-radius:var(--radius-md);text-align:left;color:var(--color-text-muted)}.nav button.active{background:var(--color-primary-highlight);color:var(--color-primary);font-weight:700}
+    .card,.sidebar-meta,.detail-block,.ticket,.note-box{background:var(--color-surface);border:1px solid color-mix(in oklab,var(--color-text) 10%,transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}.sidebar-meta,.panel,.stat-card{padding:var(--space-5)}
+    .main{display:grid;grid-template-rows:auto 1fr}.header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--color-border);background:color-mix(in oklab,var(--color-bg) 85%,transparent);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}.header h2{font-size:var(--text-xl);font-weight:700}.header p{font-size:var(--text-sm);color:var(--color-text-muted)}.header-actions{display:flex;align-items:center;gap:.75rem}.theme-toggle,.mobile-menu{width:44px;height:44px;border-radius:var(--radius-full);border:1px solid var(--color-border);background:var(--color-surface);display:grid;place-items:center}.mobile-menu{display:none}
+    .content{padding:1.5rem;display:grid;gap:1.5rem}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}.stat-value{margin-top:.75rem;font-size:var(--text-xl);font-weight:700}.eyebrow{font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted)}.view{display:none}.view.active{display:block}.grid-2,.grid-3{display:grid;gap:1.5rem}.grid-2{grid-template-columns:minmax(320px,420px) 1fr}.grid-3{grid-template-columns:1.2fr .8fr}.panel-header{display:flex;justify-content:space-between;gap:1rem;align-items:start;margin-bottom:1.25rem}.panel-header h3{font-size:var(--text-lg)}.panel-header p{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .form-grid{display:grid;gap:1rem}.inline-2,.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}label{display:grid;gap:.5rem;font-size:var(--text-sm);font-weight:500}input,select,textarea{width:100%;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface-2);padding:.85rem 1rem}textarea{min-height:110px;resize:vertical}.btn-row{display:flex;gap:.75rem;flex-wrap:wrap}.btn{min-height:44px;padding:.8rem 1rem;border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:700}.btn-primary{background:var(--color-primary);color:var(--color-text-inverse)}.btn-primary:hover{background:var(--color-primary-hover)}.btn-secondary{background:var(--color-surface-offset);border:1px solid var(--color-border)}.btn-danger{background:color-mix(in oklab,var(--color-error) 15%,var(--color-surface));color:var(--color-error);border:1px solid color-mix(in oklab,var(--color-error) 25%,var(--color-border))}
+    .badge,.chip{display:inline-flex;align-items:center;gap:.5rem;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:700}.badge{padding:.35rem .7rem}.chip{padding:.45rem .8rem;background:var(--color-surface-offset);border:1px solid color-mix(in oklab,var(--color-text) 10%,transparent);color:var(--color-text-muted)}.status-open{background:color-mix(in oklab,var(--color-error) 16%,var(--color-surface));color:var(--color-error)}.status-progress{background:color-mix(in oklab,var(--color-warning) 18%,var(--color-surface));color:var(--color-warning)}.status-resolved{background:color-mix(in oklab,var(--color-success) 18%,var(--color-surface));color:var(--color-success)}.status-closed{background:color-mix(in oklab,var(--color-blue) 18%,var(--color-surface));color:var(--color-blue)}.priority-high{color:var(--color-error)}.priority-medium{color:var(--color-warning)}.priority-low{color:var(--color-blue)}
+    .list,.drawer{display:grid;gap:1rem}.ticket{padding:1rem;background:var(--color-surface-2)}.ticket-top,.ticket-meta{display:flex;justify-content:space-between;gap:1rem;align-items:start}.filters{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}.filters select,.filters input{min-width:180px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:.9rem .75rem;border-bottom:1px solid var(--color-divider);vertical-align:top}th{background:var(--color-surface);font-size:var(--text-sm);color:var(--color-text-muted)}.user-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.toast{position:fixed;right:1rem;bottom:1rem;padding:1rem 1.25rem;background:var(--color-text);color:var(--color-text-inverse);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);transform:translateY(120%);opacity:0;transition:.18s ease;z-index:60}.toast.show{transform:translateY(0);opacity:1}
+    @media (max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-2,.grid-3{grid-template-columns:1fr}}@media (max-width:820px){.app{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 auto 0 0;width:min(86vw,300px);transform:translateX(-105%);transition:transform .18s ease;z-index:30}.sidebar.open{transform:translateX(0)}.mobile-menu{display:grid}}@media (max-width:640px){.stats,.inline-2,.detail-grid{grid-template-columns:1fr}.filters select,.filters input{width:100%;min-width:100%}.header{align-items:start;flex-direction:column}.header-actions{width:100%;justify-content:space-between}}
+  </style>
+</head>
+<body>
+  <div id="authGate" class="auth-gate">
+    <div class="card panel" style="width:min(620px,100%);">
+      <div class="panel-header"><div><h3>Connexion sécurisée</h3><p>Le gérant gère les tickets et les utilisateurs. Le déclarant peut confirmer ou rouvrir un ticket résolu.</p></div><span class="badge status-progress">V3</span></div>
+      <form id="loginForm" class="form-grid">
+        <div class="inline-2"><label>Adresse e-mail<input type="email" name="email" required></label><label>Code d'accès / mot de passe<input type="password" name="password" required></label></div>
+        <label>Rôle<select name="role" required><option value="reporter">Déclarant</option><option value="manager">Gérant</option></select></label>
+        <div class="btn-row"><button class="btn btn-primary" type="submit">Se connecter</button></div>
+        <div class="detail-block" style="padding:1rem;"><p class="eyebrow">Comptes de démonstration</p><p class="small">Gérant : manager@entreprise.fr / admin123</p><p class="small">Déclarant : reporter@entreprise.fr / user123</p></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 17L10 7L14 13L20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="17" r="2" fill="currentColor"/><circle cx="10" cy="7" r="2" fill="currentColor"/><circle cx="14" cy="13" r="2" fill="currentColor"/><circle cx="20" cy="5" r="2" fill="currentColor"/></svg></div><div><h1>NetSignal V3</h1><p>Tickets + utilisateurs</p></div></div>
+      <nav class="nav"><button class="nav-link active" data-view-target="reporter-view">Déclarer</button><button class="nav-link" data-view-target="manager-view" id="managerNav">Gérer</button><button class="nav-link" data-view-target="users-view" id="usersNav">Utilisateurs</button></nav>
+      <div class="sidebar-meta"><p class="eyebrow">Nouveautés</p><p class="small">Le gérant peut ajouter ou supprimer des utilisateurs et attribuer un code d'accès aux employés.</p></div>
+    </aside>
+
+    <div class="main">
+      <header class="header">
+        <div style="display:flex;gap:.75rem;align-items:flex-start;"><button class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div><h2 id="pageTitle">Déclaration enrichie</h2><p id="pageSubtitle">Zone déclarant avec accès restreint.</p></div></div>
+        <div class="header-actions"><span class="chip" id="sessionBadge">Non connecté</span><button class="btn btn-secondary" id="logoutBtn" type="button">Déconnexion</button><button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème"></button></div>
+      </header>
+
+      <main class="content">
+        <section class="stats">
+          <article class="card stat-card"><p class="eyebrow">Ouverts</p><div class="stat-value" id="statOpen">0</div></article>
+          <article class="card stat-card"><p class="eyebrow">En cours</p><div class="stat-value" id="statProgress">0</div></article>
+          <article class="card stat-card"><p class="eyebrow">Résolus / clos</p><div class="stat-value" id="statResolved">0</div></article>
+          <article class="card stat-card"><p class="eyebrow">Notifications</p><div class="stat-value" id="statNotified">0</div></article>
+          <article class="card stat-card"><p class="eyebrow">Utilisateurs</p><div class="stat-value" id="statUsers">0</div></article>
+        </section>
+
+        <section id="reporter-view" class="view active">
+          <div class="grid-2">
+            <article class="card panel">
+              <div class="panel-header"><div><h3>Nouveau signalement</h3><p>Le déclarant crée un ticket et suit son traitement.</p></div><span class="badge status-open">Nouveau</span></div>
+              <form id="incidentForm" class="form-grid">
+                <label>Objet<input type="text" name="subject" required></label>
+                <div class="inline-2"><label>Topic<select name="topic" required><option value="">Choisir</option><option>Connectivité</option><option>VPN</option><option>Wi-Fi</option><option>Firewall</option><option>Supervision</option><option>Autre</option></select></label><label>Priorité<select name="priority" required><option value="">Choisir</option><option>Haute</option><option>Moyenne</option><option>Basse</option></select></label></div>
+                <div class="inline-2"><label>Site / agence<input type="text" name="site" required></label><label>Service impacté<input type="text" name="service" required></label></div>
+                <label>Description<textarea name="description" required></textarea></label>
+                <div class="detail-block" style="padding:1rem;"><p class="eyebrow">Déclarant</p><div class="inline-2" style="margin-top:.75rem;"><label>Nom<input type="text" name="reporterName" required></label><label>E-mail<input type="email" name="reporterEmail" required></label></div></div>
+                <div class="btn-row"><button class="btn btn-primary" type="submit">Créer le signalement</button><button class="btn btn-secondary" type="reset">Réinitialiser</button></div>
+              </form>
+            </article>
+            <article class="card panel"><div class="panel-header"><div><h3>Mes tickets</h3><p>Le déclarant peut confirmer ou rouvrir un ticket résolu.</p></div></div><div id="reporterList" class="list"></div></article>
+          </div>
+        </section>
+
+        <section id="manager-view" class="view">
+          <div class="grid-3">
+            <article class="card panel">
+              <div class="panel-header"><div><h3>Centre de gestion</h3><p>Le gérant traite et notifie les tickets.</p></div><button class="btn btn-secondary" id="exportBtn" type="button">Exporter CSV</button></div>
+              <div class="filters"><select id="statusFilter"><option value="all">Tous les statuts</option><option value="Ouvert">Ouvert</option><option value="En cours">En cours</option><option value="Résolu">Résolu</option><option value="Clos">Clos</option></select><input type="search" id="searchInput" placeholder="Rechercher"></div>
+              <div class="table-wrap"><table><thead><tr><th>Incident</th><th>Déclarant</th><th>Priorité</th><th>Statut</th><th>Assignation</th><th>Action</th></tr></thead><tbody id="managerTableBody"></tbody></table></div>
+            </article>
+            <aside class="drawer"><article class="card panel"><div class="panel-header"><div><h3>Détail incident</h3><p>Notification de résolution avec note.</p></div></div><div id="detailPane" class="detail-block" style="padding:1rem;">Sélectionnez un incident.</div></article></aside>
+          </div>
+        </section>
+
+        <section id="users-view" class="view">
+          <div class="grid-3">
+            <article class="card panel">
+              <div class="panel-header"><div><h3>Gestion des utilisateurs</h3><p>Créer ou supprimer des accès employés.</p></div></div>
+              <form id="userForm" class="form-grid">
+                <div class="inline-2"><label>Nom complet<input type="text" name="name" required></label><label>E-mail<input type="email" name="email" required></label></div>
+                <div class="inline-2"><label>Rôle<select name="role" required><option value="reporter">Déclarant</option><option value="manager">Gérant</option></select></label><label>Code d'accès<input type="text" name="password" placeholder="Ex. EMP2026-001" required></label></div>
+                <div class="btn-row"><button class="btn btn-primary" type="submit">Ajouter l'utilisateur</button></div>
+              </form>
+            </article>
+            <article class="card panel">
+              <div class="panel-header"><div><h3>Liste des utilisateurs</h3><p>Suppression et visualisation des accès.</p></div></div>
+              <div class="table-wrap"><table><thead><tr><th>Nom</th><th>E-mail</th><th>Rôle</th><th>Code</th><th>Action</th></tr></thead><tbody id="usersTableBody"></tbody></table></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const state = {
+      users: [
+        { id: crypto.randomUUID(), email:'manager@entreprise.fr', password:'admin123', role:'manager', name:'Camille Bernard', system:true },
+        { id: crypto.randomUUID(), email:'reporter@entreprise.fr', password:'user123', role:'reporter', name:'Nina Petit', system:true }
+      ],
+      incidents: [
+        { id: crypto.randomUUID(), subject:'Perte Internet site Lille', topic:'Connectivité', priority:'Haute', site:'Lille', service:'Production', description:'Plus de sortie Internet depuis 08:12.', reporterName:'Sonia Martin', reporterEmail:'sonia.martin@entreprise.fr', status:'Ouvert', assignee:'NOC Niveau 2', createdAt:new Date().toISOString(), resolutionNotified:false, resolutionNote:'', notifications:[] },
+        { id: crypto.randomUUID(), subject:'Instabilité Wi-Fi bâtiment B', topic:'Wi-Fi', priority:'Moyenne', site:'Paris Siège', service:'Commercial', description:'Déconnexions au 3e étage.', reporterName:'Karim El Mansouri', reporterEmail:'karim.elmansouri@entreprise.fr', status:'En cours', assignee:'Equipe Wi-Fi', createdAt:new Date().toISOString(), resolutionNotified:false, resolutionNote:'', notifications:[] }
+      ],
+      currentUser: null,
+      activeView: 'reporter-view',
+      selectedId: null,
+      theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    };
+    state.selectedId = state.incidents[0].id;
+
+    const els = {
+      authGate:document.getElementById('authGate'), loginForm:document.getElementById('loginForm'), logoutBtn:document.getElementById('logoutBtn'), sessionBadge:document.getElementById('sessionBadge'), navLinks:[...document.querySelectorAll('.nav-link')], views:[...document.querySelectorAll('.view')], pageTitle:document.getElementById('pageTitle'), pageSubtitle:document.getElementById('pageSubtitle'), managerNav:document.getElementById('managerNav'), usersNav:document.getElementById('usersNav'), reporterList:document.getElementById('reporterList'), managerTableBody:document.getElementById('managerTableBody'), detailPane:document.getElementById('detailPane'), incidentForm:document.getElementById('incidentForm'), statusFilter:document.getElementById('statusFilter'), searchInput:document.getElementById('searchInput'), exportBtn:document.getElementById('exportBtn'), userForm:document.getElementById('userForm'), usersTableBody:document.getElementById('usersTableBody'), statOpen:document.getElementById('statOpen'), statProgress:document.getElementById('statProgress'), statResolved:document.getElementById('statResolved'), statNotified:document.getElementById('statNotified'), statUsers:document.getElementById('statUsers'), toast:document.getElementById('toast'), sidebar:document.getElementById('sidebar'), mobileMenu:document.getElementById('mobileMenu'), themeToggle:document.getElementById('themeToggle')
+    };
+
+    const canManage = () => state.currentUser?.role === 'manager';
+    const canReport = () => !!state.currentUser;
+    const fmt = iso => new Intl.DateTimeFormat('fr-FR',{dateStyle:'short',timeStyle:'short'}).format(new Date(iso));
+    const toast = msg => { els.toast.textContent = msg; els.toast.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>els.toast.classList.remove('show'),2200); };
+    const statusClass = s => s==='Ouvert' ? 'status-open' : s==='En cours' ? 'status-progress' : s==='Clos' ? 'status-closed' : 'status-resolved';
+    const priorityClass = p => p==='Haute' ? 'priority-high' : p==='Moyenne' ? 'priority-medium' : 'priority-low';
+
+    function setThemeIcon(){
+      els.themeToggle.innerHTML = state.theme==='dark'
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    }
+
+    function applyAccess(){
+      els.managerNav.classList.toggle('hidden', !canManage());
+      els.usersNav.classList.toggle('hidden', !canManage());
+      document.getElementById('manager-view').classList.toggle('hidden', !canManage());
+      document.getElementById('users-view').classList.toggle('hidden', !canManage());
+      els.exportBtn.classList.toggle('hidden', !canManage());
+      els.sessionBadge.textContent = state.currentUser ? `${state.currentUser.name} · ${state.currentUser.role==='manager'?'Gérant':'Déclarant'}` : 'Non connecté';
+      if(!canManage() && ['manager-view','users-view'].includes(state.activeView)) setView('reporter-view');
+    }
+
+    function setView(viewId){
+      if((viewId==='manager-view'||viewId==='users-view') && !canManage()) return;
+      state.activeView=viewId;
+      els.navLinks.forEach(btn=>btn.classList.toggle('active', btn.dataset.viewTarget===viewId));
+      els.views.forEach(v=>v.classList.toggle('active', v.id===viewId));
+      const labels={
+        'reporter-view':['Déclaration enrichie','Zone déclarant avec accès restreint.'],
+        'manager-view':['Gestion avancée','Zone complète de pilotage réservée au gérant.'],
+        'users-view':['Gestion des utilisateurs','Création, suppression et attribution de codes employés.']
+      };
+      els.pageTitle.textContent=labels[viewId][0];
+      els.pageSubtitle.textContent=labels[viewId][1];
+    }
+
+    function filteredIncidents(){
+      const status=els.statusFilter.value, q=els.searchInput.value.trim().toLowerCase();
+      return state.incidents.filter(i => (status==='all'||i.status===status) && (!q||[i.subject,i.reporterName,i.assignee,i.site].join(' ').toLowerCase().includes(q)));
+    }
+
+    function renderStats(){
+      els.statOpen.textContent=state.incidents.filter(i=>i.status==='Ouvert').length;
+      els.statProgress.textContent=state.incidents.filter(i=>i.status==='En cours').length;
+      els.statResolved.textContent=state.incidents.filter(i=>i.status==='Résolu'||i.status==='Clos').length;
+      els.statNotified.textContent=state.incidents.filter(i=>i.resolutionNotified).length;
+      els.statUsers.textContent=state.users.length;
+    }
+
+    function reporterActions(item){
+      if(item.status==='Résolu') return `<div class="btn-row"><button class="btn btn-secondary" data-reporter-action="confirm" data-id="${item.id}" type="button">Confirmer que c'est réglé</button><button class="btn btn-secondary" data-reporter-action="reopen" data-id="${item.id}" type="button">Rouvrir le ticket</button></div>`;
+      if(item.status==='Clos') return `<div class="note-box" style="padding:1rem;"><p><strong>Ticket confirmé et clos.</strong></p></div>`;
+      return '';
+    }
+
+    function renderReporterList(){
+      els.reporterList.innerHTML = state.incidents.slice(0,10).map(item=>`<article class="ticket"><div class="ticket-top"><div><h4>${item.subject}</h4><p class="small">${item.site} · ${item.topic}</p></div><span class="badge ${statusClass(item.status)}">${item.status}</span></div><p>${item.description}</p><div class="ticket-meta"><div style="display:flex;flex-wrap:wrap;gap:.5rem"><span class="chip">${item.reporterName}</span><span class="chip ${priorityClass(item.priority)}">Priorité ${item.priority}</span></div><span class="small">${fmt(item.createdAt)}</span></div>${item.resolutionNotified ? `<div class="note-box" style="padding:1rem;"><p><strong>Notification envoyée :</strong> incident réglé.</p><p class="small">Note du gérant : ${item.resolutionNote || 'Aucune note complémentaire.'}</p></div>` : ''}${reporterActions(item)}</article>`).join('');
+    }
+
+    function renderManagerTable(){
+      if(!canManage()) return;
+      const items=filteredIncidents();
+      els.managerTableBody.innerHTML=items.map(item=>`<tr><td><strong>${item.subject}</strong><br><span class="small">${item.site} · ${item.topic}</span></td><td>${item.reporterName}<br><span class="small">${item.reporterEmail}</span></td><td><span class="${priorityClass(item.priority)}">${item.priority}</span></td><td><select data-field="status" data-id="${item.id}"><option ${item.status==='Ouvert'?'selected':''}>Ouvert</option><option ${item.status==='En cours'?'selected':''}>En cours</option><option ${item.status==='Résolu'?'selected':''}>Résolu</option><option ${item.status==='Clos'?'selected':''}>Clos</option></select></td><td><input data-field="assignee" data-id="${item.id}" value="${item.assignee||''}"></td><td><div class="btn-row"><button class="btn btn-secondary" data-action="select" data-id="${item.id}" type="button">Ouvrir</button><button class="btn btn-secondary" data-action="save" data-id="${item.id}" type="button">Enregistrer</button></div></td></tr>`).join('');
+    }
+
+    function renderDetail(){
+      if(!canManage()) { els.detailPane.innerHTML='Accès réservé au gérant.'; return; }
+      const item=state.incidents.find(i=>i.id===state.selectedId);
+      if(!item){ els.detailPane.innerHTML='Sélectionnez un incident.'; return; }
+      els.detailPane.innerHTML=`<div class="drawer"><div class="detail-grid"><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Objet</p><p>${item.subject}</p></div><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Déclarant</p><p>${item.reporterName}<br><span class="small">${item.reporterEmail}</span></p></div><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Statut</p><p><span class="badge ${statusClass(item.status)}">${item.status}</span></p></div><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Assigné à</p><p>${item.assignee}</p></div></div><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Description</p><p>${item.description}</p></div><div class="detail-block" style="padding:1rem;"><p class="eyebrow">Notifier la résolution</p><div class="form-grid" style="margin-top:.75rem;"><label>Note complémentaire<textarea id="resolutionNote" placeholder="Ex. Le lien a été redémarré, merci de vérifier.">${item.resolutionNote || ''}</textarea></label><div class="btn-row"><button class="btn btn-primary" id="notifyResolvedBtn" type="button">Notifier et passer en résolu</button></div></div></div></div>`;
+      document.getElementById('notifyResolvedBtn')?.addEventListener('click',()=>{
+        const note=document.getElementById('resolutionNote').value.trim();
+        item.status='Résolu';
+        item.resolutionNote=note;
+        item.resolutionNotified=true;
+        item.notifications.unshift({type:'resolved',sentAt:new Date().toISOString(),note,to:item.reporterEmail});
+        renderAll();
+        toast('Notification de résolution envoyée.');
+      });
+    }
+
+    function renderUsers(){
+      if(!canManage()) return;
+      els.usersTableBody.innerHTML = state.users.map(user=>`<tr><td><strong>${user.name}</strong>${user.system ? '<br><span class="small">Compte système</span>' : ''}</td><td>${user.email}</td><td>${user.role==='manager'?'Gérant':'Déclarant'}</td><td><span class="user-code">${user.password}</span></td><td>${user.system ? '<span class="small">Protégé</span>' : `<button class="btn btn-danger" data-user-action="delete" data-id="${user.id}" type="button">Supprimer</button>`}</td></tr>`).join('');
+    }
+
+    function renderAll(){
+      renderStats();
+      renderReporterList();
+      renderManagerTable();
+      renderDetail();
+      renderUsers();
+      applyAccess();
+    }
+
+    function login(email,password,role){
+      const user=state.users.find(u=>u.email===email && u.password===password && u.role===role);
+      if(!user) return false;
+      state.currentUser=user;
+      els.authGate.classList.add('hidden');
+      setView(role==='manager' ? 'manager-view' : 'reporter-view');
+      renderAll();
+      toast(`Connecté en tant que ${role==='manager'?'gérant':'déclarant'}.`);
+      return true;
+    }
+
+    function logout(){
+      state.currentUser=null;
+      els.authGate.classList.remove('hidden');
+      setView('reporter-view');
+      applyAccess();
+      toast('Déconnecté.');
+    }
+
+    els.loginForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const fd=new FormData(els.loginForm);
+      const ok=login(String(fd.get('email')).trim().toLowerCase(), String(fd.get('password')), String(fd.get('role')));
+      if(!ok) toast('Identifiants invalides.');
+    });
+
+    els.logoutBtn.addEventListener('click', logout);
+
+    els.incidentForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      if(!canReport()) return;
+      const fd=new FormData(els.incidentForm);
+      const incident={ id:crypto.randomUUID(), subject:fd.get('subject'), topic:fd.get('topic'), priority:fd.get('priority'), site:fd.get('site'), service:fd.get('service'), description:fd.get('description'), reporterName:fd.get('reporterName'), reporterEmail:fd.get('reporterEmail'), status:'Ouvert', assignee:'Non affecté', createdAt:new Date().toISOString(), resolutionNotified:false, resolutionNote:'', notifications:[] };
+      state.incidents.unshift(incident);
+      state.selectedId=incident.id;
+      els.incidentForm.reset();
+      renderAll();
+      toast('Signalement créé.');
+    });
+
+    els.userForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      if(!canManage()) return;
+      const fd=new FormData(els.userForm);
+      state.users.unshift({ id:crypto.randomUUID(), name:fd.get('name'), email:String(fd.get('email')).trim().toLowerCase(), role:fd.get('role'), password:fd.get('password'), system:false });
+      els.userForm.reset();
+      renderUsers();
+      renderStats();
+      toast('Utilisateur ajouté avec son code d\'accès.');
+    });
+
+    els.usersTableBody.addEventListener('click',e=>{
+      if(!canManage()) return;
+      const btn=e.target.closest('[data-user-action="delete"]');
+      if(!btn) return;
+      state.users=state.users.filter(u=>u.id!==btn.dataset.id);
+      renderUsers();
+      renderStats();
+      toast('Utilisateur supprimé.');
+    });
+
+    els.reporterList.addEventListener('click',e=>{
+      const btn=e.target.closest('[data-reporter-action]');
+      if(!btn) return;
+      const item=state.incidents.find(i=>i.id===btn.dataset.id);
+      if(!item) return;
+      if(btn.dataset.reporterAction==='confirm'){
+        item.status='Clos';
+        renderAll();
+        toast('Ticket confirmé et clos.');
+      }
+      if(btn.dataset.reporterAction==='reopen'){
+        item.status='Ouvert';
+        item.resolutionNotified=false;
+        item.notifications.unshift({type:'reopened', sentAt:new Date().toISOString(), by:'reporter'});
+        renderAll();
+        toast('Ticket rouvert.');
+      }
+    });
+
+    els.navLinks.forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.viewTarget)));
+    els.statusFilter.addEventListener('change',renderManagerTable);
+    els.searchInput.addEventListener('input',renderManagerTable);
+    els.mobileMenu.addEventListener('click',()=>els.sidebar.classList.toggle('open'));
+    els.themeToggle.addEventListener('click',()=>{ state.theme=state.theme==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme', state.theme); setThemeIcon(); });
+
+    els.managerTableBody.addEventListener('click',e=>{
+      if(!canManage()) return;
+      const target=e.target.closest('[data-action]');
+      if(!target) return;
+      const item=state.incidents.find(i=>i.id===target.dataset.id);
+      if(!item) return;
+      if(target.dataset.action==='select'){ state.selectedId=item.id; renderDetail(); return; }
+      if(target.dataset.action==='save'){
+        const statusInput=els.managerTableBody.querySelector(`[data-field="status"][data-id="${item.id}"]`);
+        const assigneeInput=els.managerTableBody.querySelector(`[data-field="assignee"][data-id="${item.id}"]`);
+        item.status=statusInput.value;
+        item.assignee=assigneeInput.value.trim()||'Non affecté';
+        renderAll();
+        toast('Incident mis à jour.');
+      }
+    });
+
+    els.exportBtn.addEventListener('click',()=>{
+      if(!canManage()) return;
+      const rows=filteredIncidents();
+      const csv=[['Objet','Déclarant','Statut','Note résolution'], ...rows.map(i=>[i.subject,i.reporterEmail,i.status,i.resolutionNote])].map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n');
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='incidents-reseau-v3.csv';
+      a.click();
+      toast('Export CSV généré.');
+    });
+
+    document.documentElement.setAttribute('data-theme', state.theme);
+    setThemeIcon();
+    renderAll();
+  </script>
+</body>
+</html>
