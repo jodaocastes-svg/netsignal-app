@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetSignal Firebase</title>
+  <title>NetSignal Firebase Email Code</title>
   <style>
-    :root{--bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--primary:#0f766e;--primary2:#115e59;--danger:#b91c1c;--warn:#92400e;--success:#166534;--blue:#1d4ed8}
+    :root{--bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--primary:#0f766e;--primary2:#115e59;--danger:#b91c1c}
     *{box-sizing:border-box}
     body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
     .wrap{max-width:1300px;margin:0 auto;padding:20px}
@@ -21,7 +21,6 @@
     button:hover{background:var(--primary2)}
     button.secondary{background:#e5e7eb;color:#111827}
     button.danger{background:var(--danger)}
-    button.danger:hover{filter:brightness(.95)}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .tickets,.users{display:grid;gap:12px}
     .item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fafafa}
@@ -33,11 +32,9 @@
     .note{background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px;padding:12px;margin-top:10px}
     .login-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .login-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
-    .manager-tools{display:grid;gap:12px}
     .split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    @media(max-width:1000px){
-      .grid,.split,.row,.login-grid,.login-actions{grid-template-columns:1fr}
-    }
+    .manager-tools{display:grid;gap:12px}
+    @media(max-width:1000px){.grid,.split,.row,.login-grid,.login-actions{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -45,7 +42,7 @@
     <div class="topbar">
       <div>
         <h1>NetSignal Firebase</h1>
-        <div class="small">Signalement réseau avec stockage Firestore</div>
+        <div class="small">Connexion employé avec e-mail + code d'accès</div>
       </div>
       <div class="pill" id="sessionPill">Non connecté</div>
     </div>
@@ -55,11 +52,11 @@
       <div class="login-grid">
         <div>
           <label>Email</label>
-          <input id="loginEmail" type="email" placeholder="manager@entreprise.fr" />
+          <input id="loginEmail" type="email" placeholder="prenom.nom@entreprise.fr" />
         </div>
         <div>
-          <label>Mot de passe</label>
-          <input id="loginPassword" type="password" placeholder="••••••••" />
+          <label>Code d'accès</label>
+          <input id="loginCode" type="text" placeholder="EMP001" />
         </div>
       </div>
       <div class="login-actions">
@@ -72,7 +69,7 @@
         </div>
         <button id="loginBtn">Se connecter</button>
       </div>
-      <div class="small" style="margin-top:10px">Si email et mot de passe sont vides, la connexion anonyme sera utilisée.</div>
+      <div class="small" style="margin-top:10px">Le code doit correspondre à celui enregistré dans Firestore dans la collection users.</div>
     </div>
 
     <div id="app" class="hidden">
@@ -82,7 +79,6 @@
           <form id="incidentForm">
             <label>Objet</label>
             <input name="subject" required>
-
             <div class="row">
               <div>
                 <label>Topic</label>
@@ -104,7 +100,6 @@
                 </select>
               </div>
             </div>
-
             <div class="row">
               <div>
                 <label>Site</label>
@@ -115,10 +110,8 @@
                 <input name="service" required>
               </div>
             </div>
-
             <label>Description</label>
             <textarea name="description" required></textarea>
-
             <div class="row">
               <div>
                 <label>Nom déclarant</label>
@@ -129,14 +122,13 @@
                 <input name="reporterEmail" type="email" required>
               </div>
             </div>
-
             <button style="margin-top:12px">Créer le ticket</button>
           </form>
         </div>
 
         <div class="card" id="managerPanel">
           <h2>Gestion</h2>
-          <div class="small">Le gérant peut modifier l’état, notifier la résolution et gérer les utilisateurs.</div>
+          <div class="small">Le gérant peut modifier les tickets et gérer les utilisateurs.</div>
           <div class="manager-tools" style="margin-top:12px">
             <div>
               <h3>Ajouter un utilisateur</h3>
@@ -172,21 +164,19 @@
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, setDoc, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDyeuQVSMujcwqiiZQELPspAR64840iIRM",
-      authDomain: "netsignal-2004f.firebaseapp.com",
-      projectId: "netsignal-2004f",
-      storageBucket: "netsignal-2004f.firebasestorage.app",
-      messagingSenderId: "358349870571",
-      appId: "1:358349870571:web:7be43656a1be3ecbf0f5ae",
-      measurementId: "G-PJ5K4ZWVFP"
+      apiKey: 'AIzaSyDyeuQVSMujcwqiiZQELPspAR64840iIRM',
+      authDomain: 'netsignal-2004f.firebaseapp.com',
+      projectId: 'netsignal-2004f',
+      storageBucket: 'netsignal-2004f.firebasestorage.app',
+      messagingSenderId: '358349870571',
+      appId: '1:358349870571:web:7be43656a1be3ecbf0f5ae',
+      measurementId: 'G-PJ5K4ZWVFP'
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
 
     const els = {
@@ -195,7 +185,7 @@
       sessionPill: document.getElementById('sessionPill'),
       loginBtn: document.getElementById('loginBtn'),
       loginEmail: document.getElementById('loginEmail'),
-      loginPassword: document.getElementById('loginPassword'),
+      loginCode: document.getElementById('loginCode'),
       loginRole: document.getElementById('loginRole'),
       incidentForm: document.getElementById('incidentForm'),
       tickets: document.getElementById('tickets'),
@@ -215,46 +205,42 @@
 
     const canManage = () => currentRole === 'manager';
     const fmt = t => t?.toDate ? t.toDate().toLocaleString('fr-FR') : '';
+    const normalize = v => String(v || '').trim().toLowerCase();
 
     function setSessionLabel(){
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Gérant' : 'Déclarant') : 'Non connecté';
     }
 
     async function login(){
-      const email = els.loginEmail.value.trim();
-      const password = els.loginPassword.value.trim();
+      const email = normalize(els.loginEmail.value);
+      const code = String(els.loginCode.value || '').trim();
       currentRole = els.loginRole.value;
-      if (email && password) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        await signInAnonymously(auth);
-      }
-    }
-
-    els.loginBtn.addEventListener('click', async () => {
-      try {
-        await login();
-      } catch (e) {
-        alert('Connexion impossible : vérifie Auth Firebase et tes identifiants.');
-      }
-    });
-
-    onAuthStateChanged(auth, user => {
-      currentUser = user;
-      if (user) {
-        els.loginCard.classList.add('hidden');
-        els.app.classList.remove('hidden');
-      } else {
-        els.loginCard.classList.remove('hidden');
-        els.app.classList.add('hidden');
-      }
+      if (!email || !code) return alert("Entre un email et un code d'accès.");
+      const q = query(collection(db, 'users'), where('email', '==', email));
+      const snap = await getDocs(q);
+      let found = null;
+      snap.forEach(d => {
+        const data = d.data();
+        if (String(data.code || '').trim() === code) found = { id: d.id, ...data };
+      });
+      if (!found) return alert('Email ou code invalide.');
+      if (found.role === 'manager') currentRole = 'manager';
+      currentUser = found;
+      els.loginCard.classList.add('hidden');
+      els.app.classList.remove('hidden');
       setSessionLabel();
       els.managerPanel.classList.toggle('hidden', !canManage());
       renderAll();
+    }
+
+    els.loginBtn.addEventListener('click', async () => {
+      try { await login(); }
+      catch (e) { alert('Erreur de connexion. Vérifie Firestore et la collection users.'); }
     });
 
     els.incidentForm.addEventListener('submit', async e => {
       e.preventDefault();
+      if (!currentUser) return alert('Connecte-toi avant de créer un ticket.');
       const fd = new FormData(els.incidentForm);
       try {
         await addDoc(collection(db, 'incidents'), {
@@ -270,20 +256,21 @@
           assignee: 'Non affecté',
           resolutionNotified: false,
           resolutionNote: '',
-          createdAt: serverTimestamp()
+          createdAt: serverTimestamp(),
+          createdBy: currentUser.email
         });
         els.incidentForm.reset();
       } catch (e) {
-        alert('Erreur lors de la création du ticket. Vérifie Firestore et les règles.');
+        alert('Erreur lors de la création du ticket.');
       }
     });
 
     els.addUserBtn.addEventListener('click', async () => {
       if (!canManage()) return;
       const name = els.newUserName.value.trim();
-      const email = els.newUserEmail.value.trim().toLowerCase();
+      const email = normalize(els.newUserEmail.value);
       const role = els.newUserRole.value;
-      const code = els.newUserCode.value.trim();
+      const code = String(els.newUserCode.value || '').trim();
       if (!name || !email || !code) return alert('Remplis le nom, email et code.');
       try {
         await setDoc(doc(db, 'users', crypto.randomUUID()), {
@@ -293,7 +280,7 @@
         els.newUserEmail.value = '';
         els.newUserCode.value = '';
       } catch (e) {
-        alert('Erreur lors de l’ajout utilisateur.');
+        alert("Erreur lors de l'ajout utilisateur.");
       }
     });
 
@@ -338,18 +325,15 @@
           await updateDoc(doc(db, 'incidents', id), { status: 'Résolu', resolutionNotified: true, resolutionNote: note });
         }
       } catch (e) {
-        alert('Impossible de modifier le ticket. Vérifie les règles Firestore.');
+        alert('Impossible de modifier le ticket.');
       }
     });
 
     els.users.addEventListener('click', async e => {
       const btn = e.target.closest('button[data-user-delete]');
       if (!btn || !canManage()) return;
-      try {
-        await deleteDoc(doc(db, 'users', btn.dataset.userDelete));
-      } catch (e) {
-        alert('Impossible de supprimer l’utilisateur.');
-      }
+      try { await deleteDoc(doc(db, 'users', btn.dataset.userDelete)); }
+      catch (e) { alert('Impossible de supprimer l’utilisateur.'); }
     });
 
     function listenData(){
