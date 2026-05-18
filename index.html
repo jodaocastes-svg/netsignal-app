@@ -3,74 +3,385 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetSignal Firebase</title>
+  <title>NetSignal Zen</title>
   <style>
-    :root{--bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--primary:#0f766e;--primary2:#115e59;--danger:#b91c1c}
+    :root{
+      --bg1:#effaf8;
+      --bg2:#dff3f4;
+      --card:rgba(255,255,255,.82);
+      --card2:rgba(255,255,255,.92);
+      --text:#17313a;
+      --muted:#5f7b84;
+      --line:rgba(23,49,58,.10);
+      --primary:#0f766e;
+      --primary2:#115e59;
+      --accent:#7dd3fc;
+      --accent2:#a7f3d0;
+      --danger:#b91c1c;
+      --shadow:0 18px 50px rgba(16, 52, 63, .10);
+      --radius:22px;
+    }
+
     *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:1300px;margin:0 auto;padding:20px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
-    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#e0f2fe;color:#075985;font-size:12px;font-weight:700}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.04)}
-    h1,h2,h3{margin:0 0 12px}
-    label{display:block;margin:10px 0 6px;font-weight:600}
-    input,select,textarea,button{width:100%;padding:12px;border-radius:10px;border:1px solid #d1d5db;font-size:14px}
-    textarea{min-height:100px;resize:vertical}
-    button{background:var(--primary);color:#fff;border:none;font-weight:700;cursor:pointer}
-    button:hover{background:var(--primary2)}
-    button.secondary{background:#e5e7eb;color:#111827}
-    button.danger{background:var(--danger)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .tickets,.users{display:grid;gap:12px}
-    .item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fafafa}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .actions button{width:auto}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(125,211,252,.45), transparent 22%),
+        radial-gradient(circle at 90% 15%, rgba(167,243,208,.38), transparent 18%),
+        radial-gradient(circle at 20% 85%, rgba(173,216,230,.32), transparent 24%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      position:relative;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.16), transparent 40%),
+        url("https://images.unsplash.com/photo-1519821172141-b5d8d8d1fca6?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+      opacity:.13;
+      mix-blend-mode:soft-light;
+      filter:saturate(1.1);
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:1280px;
+      margin:0 auto;
+      padding:24px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+      margin-bottom:20px;
+    }
+
+    .brand{
+      background:linear-gradient(135deg, rgba(255,255,255,.84), rgba(255,255,255,.62));
+      backdrop-filter: blur(18px);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
+      min-height:220px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .brand::after{
+      content:"";
+      position:absolute;
+      inset:auto -60px -80px auto;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(125,211,252,.26), transparent 62%);
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size:clamp(34px, 4vw, 56px);
+      letter-spacing:-.03em;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      max-width:60ch;
+      line-height:1.55;
+      font-size:15px;
+      margin-bottom:18px;
+    }
+
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.8);
+      border:1px solid var(--line);
+      font-size:13px;
+      color:#24515c;
+    }
+
+    .hero-card{
+      border-radius:var(--radius);
+      overflow:hidden;
+      min-height:220px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.25)),
+        url("https://pplx-res.cloudinary.com/image/upload/pplx_search_images/351da4ac77c65d14a32c4faf62ea384bd4e82d74.jpg") center/cover no-repeat;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.35);
+      position:relative;
+    }
+
+    .hero-card .overlay{
+      position:absolute;
+      inset:auto 0 0 0;
+      padding:18px;
+      color:white;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.48));
+      font-size:14px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .session{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.76);
+      border:1px solid var(--line);
+      font-size:13px;
+      font-weight:700;
+      color:#14555a;
+      box-shadow:0 10px 24px rgba(0,0,0,.05);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:var(--card);
+      backdrop-filter: blur(16px);
+      border:1px solid rgba(255,255,255,.45);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .card h2{
+      margin:0 0 14px;
+      font-size:24px;
+      letter-spacing:-.02em;
+    }
+
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .login-grid,.row,.login-actions,.split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    label{
+      display:block;
+      font-weight:700;
+      margin:10px 0 7px;
+      font-size:14px;
+      color:#20424a;
+    }
+
+    input,select,textarea,button{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(23,49,58,.14);
+      font-size:14px;
+      outline:none;
+    }
+
+    input,select,textarea{
+      padding:12px 14px;
+      background:rgba(255,255,255,.9);
+      color:var(--text);
+      transition:.2s ease;
+    }
+
+    input:focus,select:focus,textarea:focus{
+      border-color:rgba(15,118,110,.45);
+      box-shadow:0 0 0 4px rgba(125,211,252,.22);
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    button{
+      border:none;
+      padding:12px 14px;
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      color:white;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 14px 24px rgba(15,118,110,.20);
+      transition:transform .15s ease, filter .15s ease;
+    }
+
+    button:hover{transform:translateY(-1px);filter:brightness(1.02)}
+    button.secondary{background:linear-gradient(135deg, #e5eef0, #d8e7ea);color:#17313a;box-shadow:none}
+    button.danger{background:linear-gradient(135deg, #dc2626, #b91c1c)}
     .hidden{display:none}
-    .small{font-size:12px;color:var(--muted)}
-    .note{background:#ecfeff;border:1px solid #a5f3fc;border-radius:12px;padding:12px;margin-top:10px}
-    .login-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .login-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .manager-tools{display:grid;gap:12px}
-    @media(max-width:1000px){.grid,.split,.row,.login-grid,.login-actions{grid-template-columns:1fr}}
+
+    .note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:linear-gradient(135deg, rgba(125,211,252,.14), rgba(167,243,208,.16));
+      border:1px solid rgba(15,118,110,.12);
+    }
+
+    .tickets,.users{
+      display:grid;
+      gap:12px;
+    }
+
+    .item{
+      background:rgba(255,255,255,.84);
+      border:1px solid rgba(23,49,58,.10);
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 10px 24px rgba(0,0,0,.04);
+    }
+
+    .item strong{display:block;font-size:15px;margin-bottom:6px}
+    .meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .actions button{width:auto;padding:10px 12px;border-radius:12px}
+
+    .manager-panel{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.72));
+      border:1px solid rgba(15,118,110,.10);
+    }
+
+    .waterline{
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(15,118,110,.25), transparent);
+      margin:18px 0;
+    }
+
+    .floating{
+      position:absolute;
+      inset:auto 18px 18px auto;
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.32), rgba(125,211,252,.06) 55%, transparent 70%);
+      filter:blur(4px);
+      pointer-events:none;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    @media (max-width: 1024px){
+      .hero,.grid,.split,.row,.login-grid,.login-actions{grid-template-columns:1fr}
+      .hero-card{min-height:180px}
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="topbar">
-      <div>
-        <h1>NetSignal Firebase</h1>
-        <div class="small">Connexion employé avec e-mail + code d'accès</div>
+    <div class="hero">
+      <div class="brand">
+        <div class="topbar">
+          <div>
+            <h1>NetSignal Zen</h1>
+            <div class="subtitle">
+              Un espace de signalement doux et apaisant, inspiré par l’eau, le repos et l’ambiance thermale.
+              Les déclarants ne voient que leurs propres tickets, tandis que les gérants gardent la main sur les utilisateurs.
+            </div>
+          </div>
+        </div>
+        <div class="chips">
+          <div class="chip">Eau claire</div>
+          <div class="chip">Yoga & sérénité</div>
+          <div class="chip">Cure thermale</div>
+          <div class="chip">Interface douce</div>
+        </div>
+        <div class="waterline"></div>
+        <div class="small">
+          Connexion employé avec e-mail + code d’accès. Le thème visuel est conçu pour être plus respirant, plus calme, et plus premium.
+        </div>
+        <div class="floating"></div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="logoutBtn" class="secondary hidden" style="width:auto">Déconnexion</button>
+
+      <div class="hero-card">
+        <div class="overlay">Ambiance spa, eau turquoise et détente visuelle pour une interface plus agréable.</div>
+      </div>
+    </div>
+
+    <div class="topbar">
+      <div class="session">
         <div class="pill" id="sessionPill">Non connecté</div>
       </div>
+      <button id="logoutBtn" class="secondary hidden" style="width:auto">Déconnexion</button>
     </div>
 
     <div class="card" id="loginCard">
       <h2>Connexion</h2>
       <div class="login-grid">
         <div>
-          <label>Email</label>
+          abel>Email</label>
           <input id="loginEmail" type="email" placeholder="prenom.nom@entreprise.fr" />
         </div>
         <div>
-          <label>Code d'accès</label>
+          abel>Code d'accès</label>
           <input id="loginCode" type="text" placeholder="EMP001" />
         </div>
       </div>
-      <div class="login-actions">
+      <div class="login-actions" style="margin-top:2px">
         <div>
-          <label>Rôle</label>
+          abel>Rôle</label>
           <select id="loginRole">
             <option value="reporter">Déclarant</option>
             <option value="manager">Gérant</option>
           </select>
         </div>
-        <button id="loginBtn">Se connecter</button>
+        <div style="display:flex;align-items:end">
+          <button id="loginBtn">Se connecter</button>
+        </div>
       </div>
       <div class="small" style="margin-top:10px">Le code doit correspondre à celui enregistré dans Firestore dans la collection users.</div>
     </div>
@@ -80,11 +391,12 @@
         <div class="card">
           <h2>Nouveau signalement</h2>
           <form id="incidentForm">
-            <label>Objet</label>
+            abel>Objet</label>
             <input name="subject" required>
+
             <div class="row">
               <div>
-                <label>Topic</label>
+                abel>Topic</label>
                 <select name="topic" required>
                   <option>Connectivité</option>
                   <option>VPN</option>
@@ -95,7 +407,7 @@
                 </select>
               </div>
               <div>
-                <label>Priorité</label>
+                abel>Priorité</label>
                 <select name="priority" required>
                   <option>Haute</option>
                   <option>Moyenne</option>
@@ -103,65 +415,73 @@
                 </select>
               </div>
             </div>
+
             <div class="row">
               <div>
-                <label>Site</label>
+                abel>Site</label>
                 <input name="site" required>
               </div>
               <div>
-                <label>Service</label>
+                abel>Service</label>
                 <input name="service" required>
               </div>
             </div>
-            <label>Description</label>
+
+            abel>Description</label>
             <textarea name="description" required></textarea>
+
             <div class="row">
               <div>
-                <label>Nom déclarant</label>
+                abel>Nom déclarant</label>
                 <input name="reporterName" required>
               </div>
               <div>
-                <label>Email déclarant</label>
+                abel>Email déclarant</label>
                 <input name="reporterEmail" type="email" required>
               </div>
             </div>
+
             <button style="margin-top:12px">Créer le ticket</button>
           </form>
         </div>
 
-        <div class="card" id="managerPanel">
+        <div class="card manager-panel" id="managerPanel">
           <h2>Gestion</h2>
           <div class="small">Le gérant peut modifier les tickets et gérer les utilisateurs.</div>
-          <div class="manager-tools" style="margin-top:12px">
-            <div>
-              <h3>Ajouter un utilisateur</h3>
-              <div class="row">
-                <input id="newUserName" placeholder="Nom complet">
-                <input id="newUserEmail" placeholder="Email">
-              </div>
-              <div class="row">
-                <select id="newUserRole">
-                  <option value="reporter">Déclarant</option>
-                  <option value="manager">Gérant</option>
-                </select>
-                <input id="newUserCode" placeholder="Code d'accès">
-              </div>
-              <button id="addUserBtn" style="margin-top:10px">Ajouter utilisateur</button>
+
+          <div style="margin-top:14px">
+            <h3 style="margin:0 0 10px">Ajouter un utilisateur</h3>
+            <div class="row">
+              <input id="newUserName" placeholder="Nom complet">
+              <input id="newUserEmail" placeholder="Email">
             </div>
+            <div class="row">
+              <select id="newUserRole">
+                <option value="reporter">Déclarant</option>
+                <option value="manager">Gérant</option>
+              </select>
+              <input id="newUserCode" placeholder="Code d'accès">
+            </div>
+            <button id="addUserBtn" style="margin-top:10px">Ajouter utilisateur</button>
           </div>
         </div>
       </div>
 
-      <div class="split" style="margin-top:20px">
+      <div class="split" style="margin-top:18px">
         <div class="card">
           <h2>Tickets</h2>
           <div id="tickets" class="tickets"></div>
         </div>
-        <div class="card">
+
+        <div class="card" id="usersCard">
           <h2>Utilisateurs</h2>
           <div id="users" class="users"></div>
         </div>
       </div>
+    </div>
+
+    <div class="footer-note">
+      Thème visuel inspiré des spas, de l’eau et du bien-être.
     </div>
   </div>
 
@@ -194,6 +514,7 @@
       incidentForm: document.getElementById('incidentForm'),
       tickets: document.getElementById('tickets'),
       users: document.getElementById('users'),
+      usersCard: document.getElementById('usersCard'),
       addUserBtn: document.getElementById('addUserBtn'),
       managerPanel: document.getElementById('managerPanel'),
       newUserName: document.getElementById('newUserName'),
@@ -206,6 +527,8 @@
     let currentUser = null;
     let incidentsCache = [];
     let usersCache = [];
+    let incidentsUnsub = null;
+    let usersUnsub = null;
 
     const canManage = () => currentRole === 'manager';
     const fmt = t => t?.toDate ? t.toDate().toLocaleString('fr-FR') : '';
@@ -215,19 +538,35 @@
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Gérant' : 'Déclarant') : 'Non connecté';
     }
 
-    function saveSession(user) {
-      localStorage.setItem('netsignal_user', JSON.stringify(user));
+    function stopListeners(){
+      if (incidentsUnsub) incidentsUnsub();
+      if (usersUnsub) usersUnsub();
+      incidentsUnsub = null;
+      usersUnsub = null;
+    }
+
+    function showApp(){
+      els.loginCard.classList.add('hidden');
+      els.app.classList.remove('hidden');
+      els.logoutBtn.classList.remove('hidden');
+      els.managerPanel.classList.toggle('hidden', !canManage());
+      els.usersCard.classList.toggle('hidden', !canManage());
+      setSessionLabel();
     }
 
     function clearSession() {
       localStorage.removeItem('netsignal_user');
       currentUser = null;
       currentRole = 'reporter';
+      stopListeners();
       els.app.classList.add('hidden');
       els.loginCard.classList.remove('hidden');
       els.logoutBtn.classList.add('hidden');
       els.sessionPill.textContent = 'Non connecté';
-      els.managerPanel.classList.add('hidden');
+    }
+
+    function saveSession(user) {
+      localStorage.setItem('netsignal_user', JSON.stringify(user));
     }
 
     function restoreSession() {
@@ -237,12 +576,8 @@
         const user = JSON.parse(raw);
         currentUser = user;
         currentRole = user.role === 'manager' ? 'manager' : 'reporter';
-        els.loginCard.classList.add('hidden');
-        els.app.classList.remove('hidden');
-        els.logoutBtn.classList.remove('hidden');
-        els.managerPanel.classList.toggle('hidden', !canManage());
-        setSessionLabel();
-        renderAll();
+        showApp();
+        listenData();
       } catch {
         clearSession();
       }
@@ -253,23 +588,23 @@
       const code = String(els.loginCode.value || '').trim();
       currentRole = els.loginRole.value;
       if (!email || !code) return alert("Entre un email et un code d'accès.");
+
       const q = query(collection(db, 'users'), where('email', '==', email));
       const snap = await getDocs(q);
       let found = null;
+
       snap.forEach(d => {
         const data = d.data();
         if (String(data.code || '').trim() === code) found = { id: d.id, ...data };
       });
+
       if (!found) return alert('Email ou code invalide.');
-      if (found.role === 'manager') currentRole = 'manager';
+
       currentUser = found;
+      currentRole = found.role === 'manager' ? 'manager' : 'reporter';
       saveSession(found);
-      els.loginCard.classList.add('hidden');
-      els.app.classList.remove('hidden');
-      els.logoutBtn.classList.remove('hidden');
-      setSessionLabel();
-      els.managerPanel.classList.toggle('hidden', !canManage());
-      renderAll();
+      showApp();
+      listenData();
     }
 
     els.loginBtn.addEventListener('click', async () => {
@@ -284,6 +619,7 @@
     els.incidentForm.addEventListener('submit', async e => {
       e.preventDefault();
       if (!currentUser) return alert('Connecte-toi avant de créer un ticket.');
+
       const fd = new FormData(els.incidentForm);
       try {
         await addDoc(collection(db, 'incidents'), {
@@ -315,6 +651,7 @@
       const role = els.newUserRole.value;
       const code = String(els.newUserCode.value || '').trim();
       if (!name || !email || !code) return alert('Remplis le nom, email et code.');
+
       try {
         await setDoc(doc(db, 'users', crypto.randomUUID()), {
           name, email, role, code, createdAt: serverTimestamp()
@@ -331,7 +668,12 @@
       els.tickets.innerHTML = incidentsCache.map(i => `
         <div class="item">
           <strong>${i.subject || ''}</strong>
-          <div class="meta"><span>${i.topic || ''}</span><span>${i.priority || ''}</span><span>${i.status || ''}</span><span>${fmt(i.createdAt)}</span></div>
+          <div class="meta">
+            <span>${i.topic || ''}</span>
+            <span>${i.priority || ''}</span>
+            <span>${i.status || ''}</span>
+            <span>${fmt(i.createdAt)}</span>
+          </div>
           <div class="small">${i.description || ''}</div>
           ${canManage() ? `
             <div class="actions">
@@ -347,11 +689,17 @@
     }
 
     function renderUsers(){
-      const visibleUsers = canManage() ? usersCache : usersCache.filter(u => String(u.role || '').toLowerCase() === 'gérant' || String(u.role || '').toLowerCase() === 'manager');
+      const visibleUsers = canManage()
+        ? usersCache
+        : usersCache.filter(u => String(u.role || '').toLowerCase() === 'gérant' || String(u.role || '').toLowerCase() === 'manager');
+
       els.users.innerHTML = visibleUsers.map(u => `
         <div class="item">
           <strong>${u.name || ''}</strong>
-          <div class="meta"><span>${u.email || ''}</span>${canManage() ? `<span>${u.role || ''}</span><span>${u.code || ''}</span>` : ''}</div>
+          <div class="meta">
+            <span>${u.email || ''}</span>
+            ${canManage() ? `<span>${u.role || ''}</span><span>${u.code || ''}</span>` : ''}
+          </div>
           ${canManage() ? `<div class="actions"><button class="danger" data-user-delete="${u.id}">Supprimer</button></div>` : ''}
         </div>
       `).join('');
@@ -366,7 +714,11 @@
         if (btn.dataset.act === 'progress') await updateDoc(doc(db, 'incidents', id), { status: 'En cours' });
         if (btn.dataset.act === 'resolved') {
           const note = els.tickets.querySelector(`input[data-note-for="${id}"]`)?.value || '';
-          await updateDoc(doc(db, 'incidents', id), { status: 'Résolu', resolutionNotified: true, resolutionNote: note });
+          await updateDoc(doc(db, 'incidents', id), {
+            status: 'Résolu',
+            resolutionNotified: true,
+            resolutionNote: note
+          });
         }
       } catch (e) {
         alert('Impossible de modifier le ticket.');
@@ -376,25 +728,46 @@
     els.users.addEventListener('click', async e => {
       const btn = e.target.closest('button[data-user-delete]');
       if (!btn || !canManage()) return;
-      try { await deleteDoc(doc(db, 'users', btn.dataset.userDelete)); }
-      catch (e) { alert('Impossible de supprimer l’utilisateur.'); }
+      try {
+        await deleteDoc(doc(db, 'users', btn.dataset.userDelete));
+      } catch (e) {
+        alert('Impossible de supprimer l’utilisateur.');
+      }
     });
 
     function listenData(){
-      onSnapshot(query(collection(db, 'incidents'), orderBy('createdAt', 'desc')), snap => {
-        incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderTickets();
-      });
-      onSnapshot(query(collection(db, 'users'), orderBy('createdAt', 'desc')), snap => {
-        usersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderUsers();
-      });
+      stopListeners();
+
+      if (canManage()) {
+        incidentsUnsub = onSnapshot(
+          query(collection(db, 'incidents'), orderBy('createdAt', 'desc')),
+          snap => {
+            incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderTickets();
+          }
+        );
+
+        usersUnsub = onSnapshot(
+          query(collection(db, 'users'), orderBy('createdAt', 'desc')),
+          snap => {
+            usersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderUsers();
+          }
+        );
+      } else {
+        incidentsUnsub = onSnapshot(
+          query(collection(db, 'incidents'), where('createdBy', '==', currentUser.email), orderBy('createdAt', 'desc')),
+          snap => {
+            incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderTickets();
+          }
+        );
+        els.users.innerHTML = '';
+      }
     }
 
-    function renderAll(){ renderTickets(); renderUsers(); }
-
     restoreSession();
-    listenData();
+    if (currentUser) listenData();
   </script>
 </body>
 </html>
