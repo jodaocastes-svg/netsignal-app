@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thermes de Digne-les-Bains - Espace demandes</title>
+  <title>Thermes de Digne-les-Bains - Signalement interne</title>
   <style>
     :root{
-      --bg1:#effdfd;
-      --bg2:#d7f1f3;
-      --bg3:#f8f4ea;
-      --card:rgba(255,255,255,.78);
-      --card2:rgba(255,255,255,.92);
-      --text:#19343d;
-      --muted:#5c7880;
-      --line:rgba(25,52,61,.10);
+      --bg1:#eefcfb;
+      --bg2:#d7eef2;
+      --bg3:#f8f3e7;
+      --glass:rgba(255,255,255,.76);
+      --glass2:rgba(255,255,255,.9);
+      --text:#16323b;
+      --muted:#5d7880;
+      --line:rgba(22,50,59,.10);
       --primary:#0f766e;
       --primary2:#155e75;
       --accent:#38bdf8;
@@ -31,9 +31,9 @@
       font-family: Inter, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 10% 10%, rgba(56,189,248,.22), transparent 22%),
+        radial-gradient(circle at 10% 10%, rgba(56,189,248,.20), transparent 22%),
         radial-gradient(circle at 80% 15%, rgba(167,243,208,.22), transparent 18%),
-        radial-gradient(circle at 20% 85%, rgba(241,234,219,.35), transparent 24%),
+        radial-gradient(circle at 20% 85%, rgba(241,234,219,.38), transparent 24%),
         linear-gradient(180deg, var(--bg1), var(--bg2) 55%, var(--bg3));
       overflow-x:hidden;
       position:relative;
@@ -45,7 +45,7 @@
       inset:-20%;
       pointer-events:none;
       background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.38), transparent 18%),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.36), transparent 18%),
         radial-gradient(circle at 80% 30%, rgba(255,255,255,.22), transparent 16%),
         radial-gradient(circle at 50% 80%, rgba(255,255,255,.18), transparent 20%);
       filter:blur(18px);
@@ -166,7 +166,7 @@
     }
 
     .subtitle{
-      max-width:64ch;
+      max-width:66ch;
       font-size:15px;
       line-height:1.62;
       color:var(--muted);
@@ -251,7 +251,7 @@
     }
 
     .card{
-      background:var(--card);
+      background:var(--glass);
       border-radius:var(--radius);
       padding:22px;
       position:relative;
@@ -262,17 +262,6 @@
       margin:0 0 14px;
       font-size:24px;
       letter-spacing:-.02em;
-    }
-
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:auto -80px -80px auto;
-      width:220px;
-      height:220px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(56,189,248,.08), transparent 62%);
-      pointer-events:none;
     }
 
     .small{
@@ -298,7 +287,7 @@
     input,select,textarea,button{
       width:100%;
       border-radius:14px;
-      border:1px solid rgba(25,52,61,.14);
+      border:1px solid rgba(22,50,59,.14);
       font-size:14px;
       outline:none;
     }
@@ -352,7 +341,6 @@
       color:#17343d;
       box-shadow:none;
     }
-
     button.danger{background:linear-gradient(135deg, #dc2626, #b91c1c)}
     .hidden{display:none}
 
@@ -360,7 +348,7 @@
 
     .item{
       background:rgba(255,255,255,.88);
-      border:1px solid rgba(25,52,61,.09);
+      border:1px solid rgba(22,50,59,.09);
       border-radius:18px;
       padding:14px;
       box-shadow:0 10px 22px rgba(0,0,0,.04);
@@ -390,7 +378,6 @@
     }
 
     .actions button{width:auto;padding:10px 12px;border-radius:12px}
-
     .note{
       margin-top:12px;
       padding:12px 14px;
@@ -423,22 +410,22 @@
           <div class="logo-mark"></div>
           <div>Thermes de Digne-les-Bains</div>
         </div>
-        <h1>Demandes d’information & de prise en charge</h1>
+        <h1>Signalement interne pour les équipes</h1>
         <div class="subtitle">
-          Un espace élégant pour les demandes liées au spa, aux thermes, aux cures, aux soins et aux réservations.
-          L’interface s’inspire de l’eau thermale, des tons naturels et d’une ambiance reposante.
+          Cet outil sert aux employés des thermes pour faire remonter rapidement les problèmes techniques à l’informaticien local :
+          poste de travail, réseau, réservation, affichage, périphériques ou logiciel métier.
         </div>
         <div class="chips">
-          <div class="chip">Eau thermale</div>
-          <div class="chip">Spa & détente</div>
-          <div class="chip">Yoga & repos</div>
-          <div class="chip">Cure thermale</div>
+          <div class="chip">Support local</div>
+          <div class="chip">Incident interne</div>
+          <div class="chip">Équipe thermale</div>
+          <div class="chip">Réponse rapide</div>
         </div>
       </div>
 
       <div class="hero-card">
         <div class="overlay">
-          Une identité visuelle plus douce, plus premium, pensée pour les demandes d’information et les séjours bien-être à Digne-les-Bains.
+          Ambiance thermale, eau claire et interface douce, pensée pour un usage interne au sein de l’établissement.
         </div>
       </div>
     </div>
@@ -452,20 +439,20 @@
       <h2>Connexion</h2>
       <div class="login-grid">
         <div>
-          abel>Email</label>
-          <input id="loginEmail" type="email" placeholder="prenom.nom@entreprise.fr" />
+          <label>Email</label>
+          <input id="loginEmail" type="email" placeholder="prenom.nom@thermesdignelesbains.com" />
         </div>
         <div>
-          abel>Code d'accès</label>
+          <label>Code d'accès</label>
           <input id="loginCode" type="text" placeholder="EMP001" />
         </div>
       </div>
       <div class="login-actions" style="margin-top:2px">
         <div>
-          abel>Rôle</label>
+          <label>Rôle</label>
           <select id="loginRole">
-            <option value="reporter">Déclarant</option>
-            <option value="manager">Gérant</option>
+            <option value="reporter">Employé</option>
+            <option value="manager">Informaticien</option>
           </select>
         </div>
         <div style="display:flex;align-items:end">
@@ -478,26 +465,26 @@
     <div id="app" class="hidden">
       <div class="grid">
         <div class="card">
-          <h2>Nouvelle demande</h2>
+          <h2>Nouveau signalement</h2>
           <form id="incidentForm">
-            abel>Objet de la demande</label>
-            <input name="subject" required placeholder="Ex : Renseignement cure thermale" />
+            <label>Objet du problème</label>
+            <input name="subject" required placeholder="Ex : imprimante du bureau accueil en panne" />
 
             <div class="row">
               <div>
-                abel>Type de demande</label>
+                <label>Type de problème</label>
                 <select name="topic" required>
-                  <option>Renseignement</option>
-                  <option>Réservation cure</option>
-                  <option>Spa / bien-être</option>
-                  <option>Soin thermal</option>
-                  <option>Hébergement</option>
-                  <option>Accessibilité</option>
+                  <option>Poste de travail</option>
+                  <option>Réseau / Wi-Fi</option>
+                  <option>Imprimante</option>
+                  <option>Réservation</option>
+                  <option>Affichage / écran</option>
+                  <option>Logiciel métier</option>
                   <option>Autre</option>
                 </select>
               </div>
               <div>
-                abel>Urgence</label>
+                <label>Urgence</label>
                 <select name="priority" required>
                   <option>Haute</option>
                   <option>Moyenne</option>
@@ -508,44 +495,44 @@
 
             <div class="row">
               <div>
-                abel>Prestation concernée</label>
-                <select name="service" required>
-                  <option>Cure thermale</option>
+                <label>Zone concernée</label>
+                <select name="site" required>
+                  <option>Accueil</option>
+                  <option>Cabines soins</option>
+                  <option>Bureau administratif</option>
                   <option>Spa thermal</option>
-                  <option>Espace aqualudique</option>
-                  <option>Soins du visage</option>
-                  <option>Soins du corps</option>
-                  <option>Hôtel / hébergement</option>
-                  <option>Réservation</option>
+                  <option>Cure thermale</option>
+                  <option>Réception hôtel</option>
+                  <option>Autre</option>
                 </select>
               </div>
               <div>
-                abel>Site / lieu</label>
-                <input name="site" required placeholder="Ex : Thermes de Digne-les-Bains" />
+                <label>Matériel / logiciel</label>
+                <input name="service" required placeholder="Ex : PC caisse, écran, logiciel réservation" />
               </div>
             </div>
 
-            abel>Description de la demande</label>
-            <textarea name="description" required placeholder="Décrivez votre demande, votre besoin ou votre question."></textarea>
+            <label>Description détaillée</label>
+            <textarea name="description" required placeholder="Décris le problème, ce qui s'est passé et à quel moment."></textarea>
 
             <div class="row">
               <div>
-                abel>Nom déclarant</label>
+                <label>Nom de l'employé</label>
                 <input name="reporterName" required />
               </div>
               <div>
-                abel>Email déclarant</label>
+                <label>Email</label>
                 <input name="reporterEmail" type="email" required />
               </div>
             </div>
 
-            <button style="margin-top:12px">Créer la demande</button>
+            <button style="margin-top:12px">Envoyer au support informatique</button>
           </form>
         </div>
 
         <div class="card manager-panel" id="managerPanel">
           <h2>Gestion</h2>
-          <div class="small">Le gérant peut modifier les demandes et gérer les utilisateurs.</div>
+          <div class="small">L’informaticien peut modifier les demandes et gérer les utilisateurs.</div>
 
           <div style="margin-top:14px">
             <h3 style="margin:0 0 10px">Ajouter un utilisateur</h3>
@@ -555,8 +542,8 @@
             </div>
             <div class="row">
               <select id="newUserRole">
-                <option value="reporter">Déclarant</option>
-                <option value="manager">Gérant</option>
+                <option value="reporter">Employé</option>
+                <option value="manager">Informaticien</option>
               </select>
               <input id="newUserCode" placeholder="Code d'accès">
             </div>
@@ -567,7 +554,7 @@
 
       <div class="split">
         <div class="card">
-          <h2>Demandes</h2>
+          <h2>Signalements</h2>
           <div id="tickets" class="tickets"></div>
         </div>
 
@@ -579,7 +566,7 @@
     </div>
 
     <div class="footer-note">
-      Interface inspirée des Thermes de Digne-les-Bains, avec une ambiance eau, repos et bien-être.
+      Outil interne des Thermes de Digne-les-Bains pour la remontée des incidents techniques.
     </div>
   </div>
 
@@ -633,7 +620,7 @@
     const normalize = v => String(v || '').trim().toLowerCase();
 
     function setSessionLabel(){
-      els.sessionPill.textContent = currentUser ? (canManage() ? 'Gérant' : 'Déclarant') : 'Non connecté';
+      els.sessionPill.textContent = currentUser ? (canManage() ? 'Informaticien' : 'Employé') : 'Non connecté';
     }
 
     function stopListeners(){
@@ -716,7 +703,7 @@
 
     els.incidentForm.addEventListener('submit', async e => {
       e.preventDefault();
-      if (!currentUser) return alert('Connecte-toi avant de créer une demande.');
+      if (!currentUser) return alert('Connecte-toi avant de créer un signalement.');
 
       const fd = new FormData(els.incidentForm);
       try {
@@ -730,7 +717,7 @@
           reporterName: fd.get('reporterName'),
           reporterEmail: fd.get('reporterEmail'),
           status: 'Ouvert',
-          assignee: 'Non affecté',
+          assignee: 'Support informatique',
           resolutionNotified: false,
           resolutionNote: '',
           createdAt: serverTimestamp(),
@@ -738,7 +725,7 @@
         });
         els.incidentForm.reset();
       } catch (e) {
-        alert('Erreur lors de la création de la demande.');
+        alert('Erreur lors de la création du signalement.');
       }
     });
 
@@ -768,8 +755,8 @@
           <strong>${i.subject || ''}</strong>
           <div class="meta">
             <span>${i.topic || ''}</span>
-            <span>${i.service || ''}</span>
             <span>${i.priority || ''}</span>
+            <span>${i.site || ''}</span>
             <span>${i.status || ''}</span>
             <span>${fmt(i.createdAt)}</span>
           </div>
@@ -777,12 +764,12 @@
           ${canManage() ? `
             <div class="actions">
               <button class="secondary" data-act="progress" data-id="${i.id}">En cours</button>
-              <button data-act="resolved" data-id="${i.id}">Résolu + notifier</button>
+              <button data-act="resolved" data-id="${i.id}">Résolu</button>
               <button class="danger" data-act="delete" data-id="${i.id}">Supprimer</button>
             </div>
             <input data-note-for="${i.id}" placeholder="Note de résolution" style="margin-top:8px">
           ` : ''}
-          ${i.resolutionNotified ? `<div class="note"><div class="small"><strong>Notification envoyée</strong></div><div class="small">Note : ${i.resolutionNote || 'Aucune note'}</div></div>` : ''}
+          ${i.resolutionNotified ? `<div class="note"><div class="small"><strong>Traitement effectué</strong></div><div class="small">Note : ${i.resolutionNote || 'Aucune note'}</div></div>` : ''}
         </div>
       `).join('');
     }
@@ -820,7 +807,7 @@
           });
         }
       } catch (e) {
-        alert('Impossible de modifier la demande.');
+        alert('Impossible de modifier le signalement.');
       }
     });
 
