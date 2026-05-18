@@ -3,134 +3,215 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetSignal Zen</title>
+  <title>Thermes de Digne-les-Bains - Espace demandes</title>
   <style>
     :root{
-      --bg1:#effaf8;
-      --bg2:#dff3f4;
-      --card:rgba(255,255,255,.82);
+      --bg1:#effdfd;
+      --bg2:#d7f1f3;
+      --bg3:#f8f4ea;
+      --card:rgba(255,255,255,.78);
       --card2:rgba(255,255,255,.92);
-      --text:#17313a;
-      --muted:#5f7b84;
-      --line:rgba(23,49,58,.10);
+      --text:#19343d;
+      --muted:#5c7880;
+      --line:rgba(25,52,61,.10);
       --primary:#0f766e;
-      --primary2:#115e59;
-      --accent:#7dd3fc;
+      --primary2:#155e75;
+      --accent:#38bdf8;
       --accent2:#a7f3d0;
+      --sand:#f1eadb;
       --danger:#b91c1c;
-      --shadow:0 18px 50px rgba(16, 52, 63, .10);
-      --radius:22px;
+      --shadow:0 22px 55px rgba(17, 64, 74, .12);
+      --radius:24px;
     }
 
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
     body{
+      min-height:100vh;
       font-family: Inter, Arial, sans-serif;
       color:var(--text);
-      min-height:100vh;
       background:
-        radial-gradient(circle at 10% 10%, rgba(125,211,252,.45), transparent 22%),
-        radial-gradient(circle at 90% 15%, rgba(167,243,208,.38), transparent 18%),
-        radial-gradient(circle at 20% 85%, rgba(173,216,230,.32), transparent 24%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      position:relative;
+        radial-gradient(circle at 10% 10%, rgba(56,189,248,.22), transparent 22%),
+        radial-gradient(circle at 80% 15%, rgba(167,243,208,.22), transparent 18%),
+        radial-gradient(circle at 20% 85%, rgba(241,234,219,.35), transparent 24%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 55%, var(--bg3));
       overflow-x:hidden;
+      position:relative;
     }
 
     body::before{
       content:"";
       position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.38), transparent 18%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.22), transparent 16%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,.18), transparent 20%);
+      filter:blur(18px);
+      animation: drift 18s ease-in-out infinite alternate;
+      opacity:.9;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
       inset:0;
       pointer-events:none;
       background:
-        linear-gradient(115deg, rgba(255,255,255,.16), transparent 40%),
-        url("https://images.unsplash.com/photo-1519821172141-b5d8d8d1fca6?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
-      opacity:.13;
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0) 35%),
+        url("https://images.unsplash.com/photo-1519821172141-b5d8d8d1fca6?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
+      opacity:.08;
       mix-blend-mode:soft-light;
-      filter:saturate(1.1);
+    }
+
+    @keyframes drift{
+      from{transform:translate3d(-2%, -1%, 0) scale(1)}
+      to{transform:translate3d(2%, 1.5%, 0) scale(1.06)}
     }
 
     .wrap{
       position:relative;
       z-index:1;
-      max-width:1280px;
+      max-width:1320px;
       margin:0 auto;
-      padding:24px;
+      padding:22px;
     }
 
     .hero{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: 1.15fr .85fr;
       gap:18px;
-      align-items:stretch;
-      margin-bottom:20px;
+      margin-bottom:18px;
+    }
+
+    .brand, .hero-card, .card{
+      border:1px solid rgba(255,255,255,.45);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(18px);
     }
 
     .brand{
-      background:linear-gradient(135deg, rgba(255,255,255,.84), rgba(255,255,255,.62));
-      backdrop-filter: blur(18px);
-      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
       border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:24px;
-      min-height:220px;
+      padding:26px;
       position:relative;
       overflow:hidden;
+      min-height:230px;
+    }
+
+    .brand::before{
+      content:"";
+      position:absolute;
+      inset:auto -60px -80px auto;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(56,189,248,.22), transparent 62%);
+      animation:pulse 7s ease-in-out infinite;
     }
 
     .brand::after{
       content:"";
       position:absolute;
-      inset:auto -60px -80px auto;
-      width:220px;
-      height:220px;
+      inset:auto auto -50px -40px;
+      width:180px;
+      height:180px;
       border-radius:50%;
-      background:radial-gradient(circle, rgba(125,211,252,.26), transparent 62%);
+      background:radial-gradient(circle, rgba(167,243,208,.18), transparent 64%);
+      animation:pulse 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:.9}
+      50%{transform:scale(1.12);opacity:1}
+    }
+
+    .logo{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.82);
+      border:1px solid var(--line);
+      font-weight:800;
+      color:#0f5f68;
+      margin-bottom:14px;
+      width:fit-content;
+    }
+
+    .logo-mark{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:linear-gradient(135deg, #0f766e, #38bdf8);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .logo-mark::before{
+      content:"";
+      position:absolute;
+      inset:7px 6px 6px 6px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.2) 45%, transparent 60%);
     }
 
     h1{
       margin:0 0 10px;
-      font-size:clamp(34px, 4vw, 56px);
-      letter-spacing:-.03em;
+      font-size:clamp(32px, 4vw, 54px);
+      line-height:1.02;
+      letter-spacing:-.04em;
     }
 
     .subtitle{
-      color:var(--muted);
-      max-width:60ch;
-      line-height:1.55;
+      max-width:64ch;
       font-size:15px;
+      line-height:1.62;
+      color:var(--muted);
       margin-bottom:18px;
     }
 
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .chip{
       padding:8px 12px;
       border-radius:999px;
-      background:rgba(255,255,255,.8);
+      background:rgba(255,255,255,.78);
       border:1px solid var(--line);
       font-size:13px;
-      color:#24515c;
+      color:#20515b;
     }
 
     .hero-card{
       border-radius:var(--radius);
+      min-height:230px;
       overflow:hidden;
-      min-height:220px;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.25)),
-        url("https://pplx-res.cloudinary.com/image/upload/pplx_search_images/351da4ac77c65d14a32c4faf62ea384bd4e82d74.jpg") center/cover no-repeat;
-      box-shadow:var(--shadow);
-      border:1px solid rgba(255,255,255,.35);
       position:relative;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.35)),
+        url("https://pplx-res.cloudinary.com/image/upload/pplx_search_images/351da4ac77c65d14a32c4faf62ea384bd4e82d74.jpg") center/cover no-repeat;
+      animation: floatbg 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatbg{
+      from{transform:scale(1) translateY(0)}
+      to{transform:scale(1.03) translateY(-4px)}
     }
 
     .hero-card .overlay{
       position:absolute;
       inset:auto 0 0 0;
-      padding:18px;
+      padding:20px;
       color:white;
-      background:linear-gradient(180deg, transparent, rgba(0,0,0,.48));
+      background:linear-gradient(180deg, transparent, rgba(10,34,40,.58));
       font-size:14px;
+      line-height:1.5;
     }
 
     .topbar{
@@ -138,14 +219,7 @@
       justify-content:space-between;
       align-items:center;
       gap:12px;
-      margin-bottom:18px;
-      flex-wrap:wrap;
-    }
-
-    .session{
-      display:flex;
-      align-items:center;
-      gap:10px;
+      margin-bottom:16px;
       flex-wrap:wrap;
     }
 
@@ -155,28 +229,33 @@
       gap:8px;
       padding:9px 14px;
       border-radius:999px;
-      background:rgba(255,255,255,.76);
+      background:rgba(255,255,255,.82);
       border:1px solid var(--line);
       font-size:13px;
-      font-weight:700;
-      color:#14555a;
-      box-shadow:0 10px 24px rgba(0,0,0,.05);
+      font-weight:800;
+      color:#134e57;
     }
 
     .grid{
       display:grid;
-      grid-template-columns:1.05fr .95fr;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:16px;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
       gap:18px;
       margin-top:18px;
     }
 
     .card{
       background:var(--card);
-      backdrop-filter: blur(16px);
-      border:1px solid rgba(255,255,255,.45);
       border-radius:var(--radius);
-      box-shadow:var(--shadow);
       padding:22px;
+      position:relative;
+      overflow:hidden;
     }
 
     .card h2{
@@ -185,13 +264,24 @@
       letter-spacing:-.02em;
     }
 
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:auto -80px -80px auto;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(56,189,248,.08), transparent 62%);
+      pointer-events:none;
+    }
+
     .small{
       font-size:12px;
       color:var(--muted);
       line-height:1.5;
     }
 
-    .login-grid,.row,.login-actions,.split{
+    .login-grid,.row,.login-actions{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:12px;
@@ -199,79 +289,94 @@
 
     label{
       display:block;
-      font-weight:700;
+      font-weight:800;
       margin:10px 0 7px;
       font-size:14px;
-      color:#20424a;
+      color:#1e3b43;
     }
 
     input,select,textarea,button{
       width:100%;
       border-radius:14px;
-      border:1px solid rgba(23,49,58,.14);
+      border:1px solid rgba(25,52,61,.14);
       font-size:14px;
       outline:none;
     }
 
     input,select,textarea{
       padding:12px 14px;
-      background:rgba(255,255,255,.9);
+      background:rgba(255,255,255,.94);
       color:var(--text);
-      transition:.2s ease;
+      transition:.22s ease;
     }
 
     input:focus,select:focus,textarea:focus{
-      border-color:rgba(15,118,110,.45);
-      box-shadow:0 0 0 4px rgba(125,211,252,.22);
+      border-color:rgba(15,118,110,.5);
+      box-shadow:0 0 0 4px rgba(56,189,248,.18);
+      transform:translateY(-1px);
     }
 
-    textarea{
-      min-height:110px;
-      resize:vertical;
-    }
+    textarea{min-height:112px;resize:vertical}
 
     button{
       border:none;
       padding:12px 14px;
       background:linear-gradient(135deg, var(--primary), var(--primary2));
       color:white;
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
-      box-shadow:0 14px 24px rgba(15,118,110,.20);
-      transition:transform .15s ease, filter .15s ease;
+      box-shadow:0 16px 26px rgba(15,118,110,.18);
+      transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      position:relative;
+      overflow:hidden;
     }
 
-    button:hover{transform:translateY(-1px);filter:brightness(1.02)}
-    button.secondary{background:linear-gradient(135deg, #e5eef0, #d8e7ea);color:#17313a;box-shadow:none}
+    button::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+      transform:translateX(-120%);
+      transition:transform .6s ease;
+    }
+
+    button:hover{
+      transform:translateY(-2px) scale(1.01);
+      box-shadow:0 20px 30px rgba(15,118,110,.24);
+      filter:saturate(1.04);
+    }
+
+    button:hover::before{transform:translateX(120%)}
+    button.secondary{
+      background:linear-gradient(135deg, #e6f3f4, #d9e9ec);
+      color:#17343d;
+      box-shadow:none;
+    }
+
     button.danger{background:linear-gradient(135deg, #dc2626, #b91c1c)}
     .hidden{display:none}
 
-    .note{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:16px;
-      background:linear-gradient(135deg, rgba(125,211,252,.14), rgba(167,243,208,.16));
-      border:1px solid rgba(15,118,110,.12);
-    }
-
-    .tickets,.users{
-      display:grid;
-      gap:12px;
-    }
+    .tickets,.users{display:grid;gap:12px}
 
     .item{
-      background:rgba(255,255,255,.84);
-      border:1px solid rgba(23,49,58,.10);
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(25,52,61,.09);
       border-radius:18px;
       padding:14px;
-      box-shadow:0 10px 24px rgba(0,0,0,.04);
+      box-shadow:0 10px 22px rgba(0,0,0,.04);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+
+    .item:hover{
+      transform:translateY(-2px);
+      box-shadow:0 16px 30px rgba(0,0,0,.06);
     }
 
     .item strong{display:block;font-size:15px;margin-bottom:6px}
     .meta{
       display:flex;
-      gap:8px;
       flex-wrap:wrap;
+      gap:8px;
       font-size:12px;
       color:var(--muted);
       margin-bottom:8px;
@@ -286,33 +391,22 @@
 
     .actions button{width:auto;padding:10px 12px;border-radius:12px}
 
+    .note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(167,243,208,.14));
+      border:1px solid rgba(15,118,110,.12);
+    }
+
     .manager-panel{
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.72));
-      border:1px solid rgba(15,118,110,.10);
-    }
-
-    .waterline{
-      height:1px;
-      background:linear-gradient(90deg, transparent, rgba(15,118,110,.25), transparent);
-      margin:18px 0;
-    }
-
-    .floating{
-      position:absolute;
-      inset:auto 18px 18px auto;
-      width:140px;
-      height:140px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(255,255,255,.32), rgba(125,211,252,.06) 55%, transparent 70%);
-      filter:blur(4px);
-      pointer-events:none;
+      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
     }
 
     .footer-note{
       margin-top:18px;
-      font-size:12px;
       color:var(--muted);
+      font-size:12px;
     }
 
     @media (max-width: 1024px){
@@ -325,37 +419,32 @@
   <div class="wrap">
     <div class="hero">
       <div class="brand">
-        <div class="topbar">
-          <div>
-            <h1>NetSignal Zen</h1>
-            <div class="subtitle">
-              Un espace de signalement doux et apaisant, inspiré par l’eau, le repos et l’ambiance thermale.
-              Les déclarants ne voient que leurs propres tickets, tandis que les gérants gardent la main sur les utilisateurs.
-            </div>
-          </div>
+        <div class="logo">
+          <div class="logo-mark"></div>
+          <div>Thermes de Digne-les-Bains</div>
+        </div>
+        <h1>Demandes d’information & de prise en charge</h1>
+        <div class="subtitle">
+          Un espace élégant pour les demandes liées au spa, aux thermes, aux cures, aux soins et aux réservations.
+          L’interface s’inspire de l’eau thermale, des tons naturels et d’une ambiance reposante.
         </div>
         <div class="chips">
-          <div class="chip">Eau claire</div>
-          <div class="chip">Yoga & sérénité</div>
+          <div class="chip">Eau thermale</div>
+          <div class="chip">Spa & détente</div>
+          <div class="chip">Yoga & repos</div>
           <div class="chip">Cure thermale</div>
-          <div class="chip">Interface douce</div>
         </div>
-        <div class="waterline"></div>
-        <div class="small">
-          Connexion employé avec e-mail + code d’accès. Le thème visuel est conçu pour être plus respirant, plus calme, et plus premium.
-        </div>
-        <div class="floating"></div>
       </div>
 
       <div class="hero-card">
-        <div class="overlay">Ambiance spa, eau turquoise et détente visuelle pour une interface plus agréable.</div>
+        <div class="overlay">
+          Une identité visuelle plus douce, plus premium, pensée pour les demandes d’information et les séjours bien-être à Digne-les-Bains.
+        </div>
       </div>
     </div>
 
     <div class="topbar">
-      <div class="session">
-        <div class="pill" id="sessionPill">Non connecté</div>
-      </div>
+      <div class="pill" id="sessionPill">Non connecté</div>
       <button id="logoutBtn" class="secondary hidden" style="width:auto">Déconnexion</button>
     </div>
 
@@ -389,25 +478,26 @@
     <div id="app" class="hidden">
       <div class="grid">
         <div class="card">
-          <h2>Nouveau signalement</h2>
+          <h2>Nouvelle demande</h2>
           <form id="incidentForm">
-            abel>Objet</label>
-            <input name="subject" required>
+            abel>Objet de la demande</label>
+            <input name="subject" required placeholder="Ex : Renseignement cure thermale" />
 
             <div class="row">
               <div>
-                abel>Topic</label>
+                abel>Type de demande</label>
                 <select name="topic" required>
-                  <option>Connectivité</option>
-                  <option>VPN</option>
-                  <option>Wi-Fi</option>
-                  <option>Firewall</option>
-                  <option>Supervision</option>
+                  <option>Renseignement</option>
+                  <option>Réservation cure</option>
+                  <option>Spa / bien-être</option>
+                  <option>Soin thermal</option>
+                  <option>Hébergement</option>
+                  <option>Accessibilité</option>
                   <option>Autre</option>
                 </select>
               </div>
               <div>
-                abel>Priorité</label>
+                abel>Urgence</label>
                 <select name="priority" required>
                   <option>Haute</option>
                   <option>Moyenne</option>
@@ -418,36 +508,44 @@
 
             <div class="row">
               <div>
-                abel>Site</label>
-                <input name="site" required>
+                abel>Prestation concernée</label>
+                <select name="service" required>
+                  <option>Cure thermale</option>
+                  <option>Spa thermal</option>
+                  <option>Espace aqualudique</option>
+                  <option>Soins du visage</option>
+                  <option>Soins du corps</option>
+                  <option>Hôtel / hébergement</option>
+                  <option>Réservation</option>
+                </select>
               </div>
               <div>
-                abel>Service</label>
-                <input name="service" required>
+                abel>Site / lieu</label>
+                <input name="site" required placeholder="Ex : Thermes de Digne-les-Bains" />
               </div>
             </div>
 
-            abel>Description</label>
-            <textarea name="description" required></textarea>
+            abel>Description de la demande</label>
+            <textarea name="description" required placeholder="Décrivez votre demande, votre besoin ou votre question."></textarea>
 
             <div class="row">
               <div>
                 abel>Nom déclarant</label>
-                <input name="reporterName" required>
+                <input name="reporterName" required />
               </div>
               <div>
                 abel>Email déclarant</label>
-                <input name="reporterEmail" type="email" required>
+                <input name="reporterEmail" type="email" required />
               </div>
             </div>
 
-            <button style="margin-top:12px">Créer le ticket</button>
+            <button style="margin-top:12px">Créer la demande</button>
           </form>
         </div>
 
         <div class="card manager-panel" id="managerPanel">
           <h2>Gestion</h2>
-          <div class="small">Le gérant peut modifier les tickets et gérer les utilisateurs.</div>
+          <div class="small">Le gérant peut modifier les demandes et gérer les utilisateurs.</div>
 
           <div style="margin-top:14px">
             <h3 style="margin:0 0 10px">Ajouter un utilisateur</h3>
@@ -467,9 +565,9 @@
         </div>
       </div>
 
-      <div class="split" style="margin-top:18px">
+      <div class="split">
         <div class="card">
-          <h2>Tickets</h2>
+          <h2>Demandes</h2>
           <div id="tickets" class="tickets"></div>
         </div>
 
@@ -481,7 +579,7 @@
     </div>
 
     <div class="footer-note">
-      Thème visuel inspiré des spas, de l’eau et du bien-être.
+      Interface inspirée des Thermes de Digne-les-Bains, avec une ambiance eau, repos et bien-être.
     </div>
   </div>
 
@@ -618,7 +716,7 @@
 
     els.incidentForm.addEventListener('submit', async e => {
       e.preventDefault();
-      if (!currentUser) return alert('Connecte-toi avant de créer un ticket.');
+      if (!currentUser) return alert('Connecte-toi avant de créer une demande.');
 
       const fd = new FormData(els.incidentForm);
       try {
@@ -640,7 +738,7 @@
         });
         els.incidentForm.reset();
       } catch (e) {
-        alert('Erreur lors de la création du ticket.');
+        alert('Erreur lors de la création de la demande.');
       }
     });
 
@@ -670,6 +768,7 @@
           <strong>${i.subject || ''}</strong>
           <div class="meta">
             <span>${i.topic || ''}</span>
+            <span>${i.service || ''}</span>
             <span>${i.priority || ''}</span>
             <span>${i.status || ''}</span>
             <span>${fmt(i.createdAt)}</span>
@@ -721,7 +820,7 @@
           });
         }
       } catch (e) {
-        alert('Impossible de modifier le ticket.');
+        alert('Impossible de modifier la demande.');
       }
     });
 
