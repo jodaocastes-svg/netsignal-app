@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetSignal Firebase Email Code</title>
+  <title>NetSignal Firebase</title>
   <style>
     :root{--bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--primary:#0f766e;--primary2:#115e59;--danger:#b91c1c}
     *{box-sizing:border-box}
@@ -44,7 +44,10 @@
         <h1>NetSignal Firebase</h1>
         <div class="small">Connexion employé avec e-mail + code d'accès</div>
       </div>
-      <div class="pill" id="sessionPill">Non connecté</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="logoutBtn" class="secondary hidden" style="width:auto">Déconnexion</button>
+        <div class="pill" id="sessionPill">Non connecté</div>
+      </div>
     </div>
 
     <div class="card" id="loginCard">
@@ -184,6 +187,7 @@
       app: document.getElementById('app'),
       sessionPill: document.getElementById('sessionPill'),
       loginBtn: document.getElementById('loginBtn'),
+      logoutBtn: document.getElementById('logoutBtn'),
       loginEmail: document.getElementById('loginEmail'),
       loginCode: document.getElementById('loginCode'),
       loginRole: document.getElementById('loginRole'),
@@ -211,6 +215,39 @@
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Gérant' : 'Déclarant') : 'Non connecté';
     }
 
+    function saveSession(user) {
+      localStorage.setItem('netsignal_user', JSON.stringify(user));
+    }
+
+    function clearSession() {
+      localStorage.removeItem('netsignal_user');
+      currentUser = null;
+      currentRole = 'reporter';
+      els.app.classList.add('hidden');
+      els.loginCard.classList.remove('hidden');
+      els.logoutBtn.classList.add('hidden');
+      els.sessionPill.textContent = 'Non connecté';
+      els.managerPanel.classList.add('hidden');
+    }
+
+    function restoreSession() {
+      const raw = localStorage.getItem('netsignal_user');
+      if (!raw) return;
+      try {
+        const user = JSON.parse(raw);
+        currentUser = user;
+        currentRole = user.role === 'manager' ? 'manager' : 'reporter';
+        els.loginCard.classList.add('hidden');
+        els.app.classList.remove('hidden');
+        els.logoutBtn.classList.remove('hidden');
+        els.managerPanel.classList.toggle('hidden', !canManage());
+        setSessionLabel();
+        renderAll();
+      } catch {
+        clearSession();
+      }
+    }
+
     async function login(){
       const email = normalize(els.loginEmail.value);
       const code = String(els.loginCode.value || '').trim();
@@ -226,8 +263,10 @@
       if (!found) return alert('Email ou code invalide.');
       if (found.role === 'manager') currentRole = 'manager';
       currentUser = found;
+      saveSession(found);
       els.loginCard.classList.add('hidden');
       els.app.classList.remove('hidden');
+      els.logoutBtn.classList.remove('hidden');
       setSessionLabel();
       els.managerPanel.classList.toggle('hidden', !canManage());
       renderAll();
@@ -236,6 +275,10 @@
     els.loginBtn.addEventListener('click', async () => {
       try { await login(); }
       catch (e) { alert('Erreur de connexion. Vérifie Firestore et la collection users.'); }
+    });
+
+    els.logoutBtn.addEventListener('click', () => {
+      clearSession();
     });
 
     els.incidentForm.addEventListener('submit', async e => {
@@ -348,6 +391,8 @@
     }
 
     function renderAll(){ renderTickets(); renderUsers(); }
+
+    restoreSession();
     listenData();
   </script>
 </body>
