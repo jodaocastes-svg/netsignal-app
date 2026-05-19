@@ -18,7 +18,6 @@
       --primary2:#155e75;
       --accent:#38bdf8;
       --accent2:#a7f3d0;
-      --sand:#f1eadb;
       --danger:#b91c1c;
       --shadow:0 22px 55px rgba(17, 64, 74, .12);
       --radius:24px;
@@ -618,6 +617,20 @@
     const canManage = () => currentRole === 'manager';
     const fmt = t => t?.toDate ? t.toDate().toLocaleString('fr-FR') : '';
     const normalize = v => String(v || '').trim().toLowerCase();
+    const durationText = (from, to = new Date()) => {
+      if (!from) return '';
+      const a = from?.toDate ? from.toDate() : new Date(from);
+      const b = to?.toDate ? to.toDate() : new Date(to);
+      const ms = Math.max(0, b - a);
+      const m = Math.floor(ms / 60000);
+      const h = Math.floor(m / 60);
+      const d = Math.floor(h / 24);
+      const hh = h % 24;
+      const mm = m % 60;
+      if (d > 0) return `${d}j ${hh}h ${mm}min`;
+      if (h > 0) return `${h}h ${mm}min`;
+      return `${mm}min`;
+    };
 
     function setSessionLabel(){
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Informaticien' : 'Employé') : 'Non connecté';
@@ -716,11 +729,14 @@
           description: fd.get('description'),
           reporterName: fd.get('reporterName'),
           reporterEmail: fd.get('reporterEmail'),
-          status: 'Ouvert',
+          status: 'Pris en compte',
+          note: '',
           assignee: 'Support informatique',
-          resolutionNotified: false,
-          resolutionNote: '',
           createdAt: serverTimestamp(),
+          takenAt: serverTimestamp(),
+          inProgressAt: null,
+          resolvedAt: null,
+          resolutionNote: '',
           createdBy: currentUser.email
         });
         els.incidentForm.reset();
@@ -761,15 +777,24 @@
             <span>${fmt(i.createdAt)}</span>
           </div>
           <div class="small">${i.description || ''}</div>
+          <div class="note">
+            <div class="small"><strong>Ouvert depuis :</strong> ${durationText(i.createdAt)}</div>
+            ${i.resolvedAt ? `<div class="small"><strong>Résolu en :</strong> ${durationText(i.createdAt, i.resolvedAt)}</div>` : ''}
+            ${i.takenAt ? `<div class="small"><strong>Pris en compte après :</strong> ${durationText(i.createdAt, i.takenAt)}</div>` : ''}
+            ${i.inProgressAt ? `<div class="small"><strong>Passé en cours après :</strong> ${durationText(i.createdAt, i.inProgressAt)}</div>` : ''}
+          </div>
+          ${i.note ? `<div class="note"><div class="small"><strong>Note :</strong> ${i.note}</div></div>` : ''}
+          ${i.resolutionNote ? `<div class="note"><div class="small"><strong>Note de clôture :</strong> ${i.resolutionNote}</div></div>` : ''}
           ${canManage() ? `
             <div class="actions">
+              <button class="secondary" data-act="taken" data-id="${i.id}">Pris en compte</button>
               <button class="secondary" data-act="progress" data-id="${i.id}">En cours</button>
               <button data-act="resolved" data-id="${i.id}">Résolu</button>
               <button class="danger" data-act="delete" data-id="${i.id}">Supprimer</button>
             </div>
-            <input data-note-for="${i.id}" placeholder="Note de résolution" style="margin-top:8px">
+            <textarea data-note-for="${i.id}" placeholder="Ajouter une note au ticket" style="margin-top:8px;min-height:80px"></textarea>
+            <input data-resolve-note-for="${i.id}" placeholder="Note de clôture si résolu" style="margin-top:8px">
           ` : ''}
-          ${i.resolutionNotified ? `<div class="note"><div class="small"><strong>Traitement effectué</strong></div><div class="small">Note : ${i.resolutionNote || 'Aucune note'}</div></div>` : ''}
         </div>
       `).join('');
     }
@@ -796,14 +821,17 @@
       if (!btn || !canManage()) return;
       const id = btn.dataset.id;
       try {
+        const note = els.tickets.querySelector(`textarea[data-note-for="${id}"]`)?.value || '';
         if (btn.dataset.act === 'delete') await deleteDoc(doc(db, 'incidents', id));
-        if (btn.dataset.act === 'progress') await updateDoc(doc(db, 'incidents', id), { status: 'En cours' });
+        if (btn.dataset.act === 'taken') await updateDoc(doc(db, 'incidents', id), { status: 'Pris en compte', takenAt: serverTimestamp(), note });
+        if (btn.dataset.act === 'progress') await updateDoc(doc(db, 'incidents', id), { status: 'En cours', inProgressAt: serverTimestamp(), note });
         if (btn.dataset.act === 'resolved') {
-          const note = els.tickets.querySelector(`input[data-note-for="${id}"]`)?.value || '';
+          const resolutionNote = els.tickets.querySelector(`input[data-resolve-note-for="${id}"]`)?.value || '';
           await updateDoc(doc(db, 'incidents', id), {
             status: 'Résolu',
-            resolutionNotified: true,
-            resolutionNote: note
+            resolvedAt: serverTimestamp(),
+            resolutionNote,
+            note
           });
         }
       } catch (e) {
