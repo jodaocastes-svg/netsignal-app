@@ -10,6 +10,7 @@
       --bg2:#d7eef2;
       --bg3:#f8f3e7;
       --glass:rgba(255,255,255,.76);
+      --glass2:rgba(255,255,255,.9);
       --text:#16323b;
       --muted:#5d7880;
       --line:rgba(22,50,59,.10);
@@ -96,6 +97,33 @@
       min-height:230px;
     }
 
+    .brand::before{
+      content:"";
+      position:absolute;
+      inset:auto -60px -80px auto;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(56,189,248,.22), transparent 62%);
+      animation:pulse 7s ease-in-out infinite;
+    }
+
+    .brand::after{
+      content:"";
+      position:absolute;
+      inset:auto auto -50px -40px;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(167,243,208,.18), transparent 64%);
+      animation:pulse 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:.9}
+      50%{transform:scale(1.12);opacity:1}
+    }
+
     .logo{
       display:inline-flex;
       align-items:center;
@@ -142,7 +170,12 @@
       margin-bottom:18px;
     }
 
-    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .chip{
       padding:8px 12px;
       border-radius:999px;
@@ -160,6 +193,12 @@
       background:
         linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.35)),
         url("https://pplx-res.cloudinary.com/image/upload/pplx_search_images/351da4ac77c65d14a32c4faf62ea384bd4e82d74.jpg") center/cover no-repeat;
+      animation: floatbg 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatbg{
+      from{transform:scale(1) translateY(0)}
+      to{transform:scale(1.03) translateY(-4px)}
     }
 
     .hero-card .overlay{
@@ -194,10 +233,18 @@
       color:#134e57;
     }
 
-    .grid,.split,.login-grid,.row,.login-actions{
+    .grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:18px;
+      margin-top:16px;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
     }
 
     .card{
@@ -218,6 +265,12 @@
       font-size:12px;
       color:var(--muted);
       line-height:1.5;
+    }
+
+    .login-grid,.row,.login-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
     label{
@@ -280,18 +333,19 @@
     }
 
     button:hover::before{transform:translateX(120%)}
-    button.secondary{background:linear-gradient(135deg,#e6f3f4,#d9e9ec);color:#17343d;box-shadow:none}
+    button.secondary{background:linear-gradient(135deg, #e6f3f4, #d9e9ec);color:#17343d;box-shadow:none}
     .hidden{display:none}
-    .tickets,.users{display:grid;gap:12px}
 
+    .tickets,.users{display:grid;gap:12px}
     .item{
       background:rgba(255,255,255,.88);
       border:1px solid rgba(22,50,59,.09);
       border-radius:18px;
       padding:14px;
       box-shadow:0 10px 22px rgba(0,0,0,.04);
+      transition:transform .18s ease, box-shadow .18s ease;
     }
-
+    .item:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(0,0,0,.06)}
     .item strong{display:block;font-size:15px;margin-bottom:6px}
     .meta{
       display:flex;
@@ -301,14 +355,12 @@
       color:var(--muted);
       margin-bottom:8px;
     }
-
     .actions{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
       margin-top:12px;
     }
-
     .actions button{width:auto;padding:10px 12px;border-radius:12px}
     .note{
       margin-top:12px;
@@ -317,16 +369,14 @@
       background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(167,243,208,.14));
       border:1px solid rgba(15,118,110,.12);
     }
-
-    .manager-panel{
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
-    }
-
+    .manager-panel{background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70))}
     .footer-note{margin-top:18px;color:var(--muted);font-size:12px}
+
     button.btn-taken{background:linear-gradient(135deg,#c7f0ff,#7dd3fc);color:#0f172a}
     button.btn-progress{background:linear-gradient(135deg,#fdba74,#fb923c);color:#0f172a}
     button.btn-resolved{background:linear-gradient(135deg,#34d399,#059669);color:white}
     button.btn-delete{background:linear-gradient(135deg,#f87171,#dc2626);color:white}
+
     .help-row{display:flex;gap:8px;align-items:center}
     .help-btn{width:auto;min-width:42px;padding:10px 14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
     .help-btn svg{width:16px;height:16px;fill:currentColor}
@@ -357,7 +407,8 @@
         </div>
         <h1>Signalement interne pour les équipes</h1>
         <div class="subtitle">
-          Cet outil sert aux employés des thermes pour faire remonter rapidement les problèmes techniques à l’informaticien local.
+          Cet outil sert aux employés des thermes pour faire remonter rapidement les problèmes techniques à l’informaticien local :
+          poste de travail, réseau, réservation, affichage, périphériques ou logiciel métier.
         </div>
         <div class="chips">
           <div class="chip">Support local</div>
@@ -387,8 +438,8 @@
           <input id="loginEmail" type="email" placeholder="prenom.nom@thermesdignelesbains.com" />
         </div>
         <div>
-          <label>Mot de passe</label>
-          <input id="loginPassword" type="password" placeholder="Mot de passe" />
+          <label>Code d'accès</label>
+          <input id="loginCode" type="text" placeholder="EMP001" />
         </div>
       </div>
       <div class="login-actions" style="margin-top:2px">
@@ -403,7 +454,7 @@
           <button id="loginBtn">Se connecter</button>
         </div>
       </div>
-      <div class="small" style="margin-top:10px">Le compte doit exister dans Firebase Authentication.</div>
+      <div class="small" style="margin-top:10px">Le code doit correspondre à celui enregistré dans Firestore dans la collection users.</div>
     </div>
 
     <div id="app" class="hidden">
@@ -465,7 +516,7 @@
                 <label>Adresse IP</label>
                 <div class="help-row">
                   <input name="ipAddress" required placeholder="Ex : 192.168.1.25" />
-                  <button type="button" id="ipHelpBtn" class="secondary help-btn" aria-label="Aide IP">
+                  <button type="button" id="ipHelpBtn" class="secondary help-btn" aria-label="Aide pour trouver l'adresse IP">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 3a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 12 5Zm1.5 14h-3v-1.5h.75v-5h-.75V11h2.25v6.5h.75Z"/>
                     </svg>
@@ -514,7 +565,7 @@
                 <option value="reporter">Employé</option>
                 <option value="manager">Informaticien</option>
               </select>
-              <input id="newUserPassword" placeholder="Mot de passe">
+              <input id="newUserCode" placeholder="Code d'accès">
             </div>
             <button id="addUserBtn" style="margin-top:10px">Ajouter utilisateur</button>
           </div>
@@ -541,7 +592,6 @@
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
     import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, setDoc, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
     const firebaseConfig = {
@@ -555,7 +605,6 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
 
     const els = {
@@ -565,7 +614,7 @@
       loginBtn: document.getElementById('loginBtn'),
       logoutBtn: document.getElementById('logoutBtn'),
       loginEmail: document.getElementById('loginEmail'),
-      loginPassword: document.getElementById('loginPassword'),
+      loginCode: document.getElementById('loginCode'),
       loginRole: document.getElementById('loginRole'),
       incidentForm: document.getElementById('incidentForm'),
       tickets: document.getElementById('tickets'),
@@ -576,7 +625,7 @@
       newUserName: document.getElementById('newUserName'),
       newUserEmail: document.getElementById('newUserEmail'),
       newUserRole: document.getElementById('newUserRole'),
-      newUserPassword: document.getElementById('newUserPassword'),
+      newUserCode: document.getElementById('newUserCode'),
       ipHelpBtn: document.getElementById('ipHelpBtn'),
       ipHelpBox: document.getElementById('ipHelpBox')
     };
@@ -606,7 +655,9 @@
       return `${mm}min`;
     };
 
-    els.ipHelpBtn.addEventListener('click', () => els.ipHelpBox.classList.toggle('hidden'));
+    els.ipHelpBtn.addEventListener('click', () => {
+      els.ipHelpBox.classList.toggle('hidden');
+    });
 
     function setSessionLabel(){
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Informaticien' : 'Employé') : 'Non connecté';
@@ -629,6 +680,7 @@
     }
 
     function clearSession() {
+      localStorage.removeItem('netsignal_user');
       currentUser = null;
       currentRole = 'reporter';
       stopListeners();
@@ -638,23 +690,54 @@
       els.sessionPill.textContent = 'Non connecté';
     }
 
+    function saveSession(user) {
+      localStorage.setItem('netsignal_user', JSON.stringify(user));
+    }
+
+    function restoreSession() {
+      const raw = localStorage.getItem('netsignal_user');
+      if (!raw) return;
+      try {
+        const user = JSON.parse(raw);
+        currentUser = user;
+        currentRole = user.role === 'manager' ? 'manager' : 'reporter';
+        showApp();
+        listenData();
+      } catch {
+        clearSession();
+      }
+    }
+
     async function login(){
       const email = normalize(els.loginEmail.value);
-      const password = String(els.loginPassword.value || '').trim();
+      const code = String(els.loginCode.value || '').trim();
       currentRole = els.loginRole.value;
-      if (!email || !password) return alert("Entre un email et un mot de passe.");
+      if (!email || !code) return alert("Entre un email et un code d'accès.");
 
-      await signInWithEmailAndPassword(auth, email, password);
+      const q = query(collection(db, 'users'), where('email', '==', email));
+      const snap = await getDocs(q);
+      let found = null;
+
+      snap.forEach(d => {
+        const data = d.data();
+        if (String(data.code || '').trim() === code) found = { id: d.id, ...data };
+      });
+
+      if (!found) return alert('Email ou code invalide.');
+
+      currentUser = found;
+      currentRole = found.role === 'manager' ? 'manager' : 'reporter';
+      saveSession(found);
+      showApp();
+      listenData();
     }
 
     els.loginBtn.addEventListener('click', async () => {
       try { await login(); }
-      catch (e) { alert('Erreur de connexion. Vérifie le compte Firebase Auth.'); }
+      catch (e) { alert('Erreur de connexion. Vérifie Firestore et la collection users.'); }
     });
 
-    els.logoutBtn.addEventListener('click', async () => {
-      try { await signOut(auth); }
-      catch {}
+    els.logoutBtn.addEventListener('click', () => {
       clearSession();
     });
 
@@ -697,17 +780,16 @@
       const name = els.newUserName.value.trim();
       const email = normalize(els.newUserEmail.value);
       const role = els.newUserRole.value;
-      const password = String(els.newUserPassword.value || '').trim();
-      if (!name || !email || !password) return alert('Remplis le nom, email et mot de passe.');
+      const code = String(els.newUserCode.value || '').trim();
+      if (!name || !email || !code) return alert('Remplis le nom, email et code.');
 
       try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, 'users', email), {
-          name, email, role, createdAt: serverTimestamp()
+        await setDoc(doc(db, 'users', crypto.randomUUID()), {
+          name, email, role, code, createdAt: serverTimestamp()
         });
         els.newUserName.value = '';
         els.newUserEmail.value = '';
-        els.newUserPassword.value = '';
+        els.newUserCode.value = '';
       } catch (e) {
         alert("Erreur lors de l'ajout utilisateur.");
       }
@@ -750,14 +832,18 @@
     }
 
     function renderUsers(){
-      const visibleUsers = canManage() ? usersCache : [];
+      const visibleUsers = canManage()
+        ? usersCache
+        : usersCache.filter(u => String(u.role || '').toLowerCase() === 'gérant' || String(u.role || '').toLowerCase() === 'manager');
+
       els.users.innerHTML = visibleUsers.map(u => `
         <div class="item">
           <strong>${u.name || ''}</strong>
           <div class="meta">
             <span>${u.email || ''}</span>
-            <span>${u.role || ''}</span>
+            ${canManage() ? `<span>${u.role || ''}</span><span>${u.code || ''}</span>` : ''}
           </div>
+          ${canManage() ? `<div class="actions"><button class="btn-delete" data-user-delete="${u.id}">Supprimer</button></div>` : ''}
         </div>
       `).join('');
     }
@@ -785,11 +871,18 @@
       }
     });
 
-    async function listenData(){
-      stopListeners();
-      const email = currentUser?.email;
-      if (!email) return;
+    els.users.addEventListener('click', async e => {
+      const btn = e.target.closest('button[data-user-delete]');
+      if (!btn || !canManage()) return;
+      try {
+        await deleteDoc(doc(db, 'users', btn.dataset.userDelete));
+      } catch (e) {
+        alert('Impossible de supprimer l’utilisateur.');
+      }
+    });
 
+    function listenData(){
+      stopListeners();
       if (canManage()) {
         incidentsUnsub = onSnapshot(query(collection(db, 'incidents'), orderBy('createdAt', 'desc')), snap => {
           incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -800,30 +893,16 @@
           renderUsers();
         });
       } else {
-        incidentsUnsub = onSnapshot(query(collection(db, 'incidents'), where('createdBy', '==', email), orderBy('createdAt', 'desc')), snap => {
+        incidentsUnsub = onSnapshot(query(collection(db, 'incidents'), where('createdBy', '==', currentUser.email), orderBy('createdAt', 'desc')), snap => {
           incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
           renderTickets();
         });
-        usersCache = [];
-        renderUsers();
+        els.users.innerHTML = '';
       }
     }
 
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        currentUser = user;
-        const userDoc = await getDocs(query(collection(db, 'users'), where('email', '==', user.email)));
-        currentRole = 'reporter';
-        userDoc.forEach(d => {
-          const data = d.data();
-          if (data.role === 'manager') currentRole = 'manager';
-        });
-        showApp();
-        listenData();
-      } else {
-        clearSession();
-      }
-    });
+    restoreSession();
+    if (currentUser) listenData();
   </script>
 </body>
 </html>
