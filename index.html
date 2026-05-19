@@ -18,6 +18,7 @@
       --primary2:#155e75;
       --accent:#38bdf8;
       --accent2:#a7f3d0;
+      --sand:#f1eadb;
       --danger:#b91c1c;
       --shadow:0 22px 55px rgba(17, 64, 74, .12);
       --radius:24px;
@@ -341,6 +342,10 @@
       box-shadow:none;
     }
     button.danger{background:linear-gradient(135deg, #dc2626, #b91c1c)}
+    button.btn-taken{background:linear-gradient(135deg,#c7f0ff,#7dd3fc);color:#0f172a}
+    button.btn-progress{background:linear-gradient(135deg,#fdba74,#fb923c);color:#0f172a}
+    button.btn-resolved{background:linear-gradient(135deg,#34d399,#059669);color:white}
+    button.btn-delete{background:linear-gradient(135deg,#f87171,#dc2626);color:white}
     .hidden{display:none}
 
     .tickets,.users{display:grid;gap:12px}
@@ -787,10 +792,10 @@
           ${i.resolutionNote ? `<div class="note"><div class="small"><strong>Note de clôture :</strong> ${i.resolutionNote}</div></div>` : ''}
           ${canManage() ? `
             <div class="actions">
-              <button class="secondary" data-act="taken" data-id="${i.id}">Pris en compte</button>
-              <button class="secondary" data-act="progress" data-id="${i.id}">En cours</button>
-              <button data-act="resolved" data-id="${i.id}">Résolu</button>
-              <button class="danger" data-act="delete" data-id="${i.id}">Supprimer</button>
+              <button class="btn-taken" data-act="taken" data-id="${i.id}">Pris en compte</button>
+              <button class="btn-progress" data-act="progress" data-id="${i.id}">En cours</button>
+              <button class="btn-resolved" data-act="resolved" data-id="${i.id}">Résolu</button>
+              <button class="btn-delete" data-act="delete" data-id="${i.id}">Supprimer</button>
             </div>
             <textarea data-note-for="${i.id}" placeholder="Ajouter une note au ticket" style="margin-top:8px;min-height:80px"></textarea>
             <input data-resolve-note-for="${i.id}" placeholder="Note de clôture si résolu" style="margin-top:8px">
@@ -811,7 +816,7 @@
             <span>${u.email || ''}</span>
             ${canManage() ? `<span>${u.role || ''}</span><span>${u.code || ''}</span>` : ''}
           </div>
-          ${canManage() ? `<div class="actions"><button class="danger" data-user-delete="${u.id}">Supprimer</button></div>` : ''}
+          ${canManage() ? `<div class="actions"><button class="btn-delete" data-user-delete="${u.id}">Supprimer</button></div>` : ''}
         </div>
       `).join('');
     }
@@ -820,17 +825,17 @@
       const btn = e.target.closest('button[data-act]');
       if (!btn || !canManage()) return;
       const id = btn.dataset.id;
+      const note = els.tickets.querySelector(`textarea[data-note-for="${id}"]`)?.value || '';
+      const resolutionNote = els.tickets.querySelector(`input[data-resolve-note-for="${id}"]`)?.value || '';
       try {
-        const note = els.tickets.querySelector(`textarea[data-note-for="${id}"]`)?.value || '';
         if (btn.dataset.act === 'delete') await deleteDoc(doc(db, 'incidents', id));
         if (btn.dataset.act === 'taken') await updateDoc(doc(db, 'incidents', id), { status: 'Pris en compte', takenAt: serverTimestamp(), note });
         if (btn.dataset.act === 'progress') await updateDoc(doc(db, 'incidents', id), { status: 'En cours', inProgressAt: serverTimestamp(), note });
         if (btn.dataset.act === 'resolved') {
-          const resolutionNote = els.tickets.querySelector(`input[data-resolve-note-for="${id}"]`)?.value || '';
           await updateDoc(doc(db, 'incidents', id), {
             status: 'Résolu',
             resolvedAt: serverTimestamp(),
-            resolutionNote,
+            resolutionNote: resolutionNote || note,
             note
           });
         }
@@ -851,31 +856,20 @@
 
     function listenData(){
       stopListeners();
-
       if (canManage()) {
-        incidentsUnsub = onSnapshot(
-          query(collection(db, 'incidents'), orderBy('createdAt', 'desc')),
-          snap => {
-            incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderTickets();
-          }
-        );
-
-        usersUnsub = onSnapshot(
-          query(collection(db, 'users'), orderBy('createdAt', 'desc')),
-          snap => {
-            usersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderUsers();
-          }
-        );
+        incidentsUnsub = onSnapshot(query(collection(db, 'incidents'), orderBy('createdAt', 'desc')), snap => {
+          incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderTickets();
+        });
+        usersUnsub = onSnapshot(query(collection(db, 'users'), orderBy('createdAt', 'desc')), snap => {
+          usersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderUsers();
+        });
       } else {
-        incidentsUnsub = onSnapshot(
-          query(collection(db, 'incidents'), where('createdBy', '==', currentUser.email), orderBy('createdAt', 'desc')),
-          snap => {
-            incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderTickets();
-          }
-        );
+        incidentsUnsub = onSnapshot(query(collection(db, 'incidents'), where('createdBy', '==', currentUser.email), orderBy('createdAt', 'desc')), snap => {
+          incidentsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderTickets();
+        });
         els.users.innerHTML = '';
       }
     }
