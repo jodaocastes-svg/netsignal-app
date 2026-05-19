@@ -16,9 +16,6 @@
       --line:rgba(22,50,59,.10);
       --primary:#0f766e;
       --primary2:#155e75;
-      --accent:#38bdf8;
-      --accent2:#a7f3d0;
-      --sand:#f1eadb;
       --danger:#b91c1c;
       --shadow:0 22px 55px rgba(17, 64, 74, .12);
       --radius:24px;
@@ -336,20 +333,10 @@
     }
 
     button:hover::before{transform:translateX(120%)}
-    button.secondary{
-      background:linear-gradient(135deg, #e6f3f4, #d9e9ec);
-      color:#17343d;
-      box-shadow:none;
-    }
-    button.danger{background:linear-gradient(135deg, #dc2626, #b91c1c)}
-    button.btn-taken{background:linear-gradient(135deg,#c7f0ff,#7dd3fc);color:#0f172a}
-    button.btn-progress{background:linear-gradient(135deg,#fdba74,#fb923c);color:#0f172a}
-    button.btn-resolved{background:linear-gradient(135deg,#34d399,#059669);color:white}
-    button.btn-delete{background:linear-gradient(135deg,#f87171,#dc2626);color:white}
+    button.secondary{background:linear-gradient(135deg, #e6f3f4, #d9e9ec);color:#17343d;box-shadow:none}
     .hidden{display:none}
 
     .tickets,.users{display:grid;gap:12px}
-
     .item{
       background:rgba(255,255,255,.88);
       border:1px solid rgba(22,50,59,.09);
@@ -358,12 +345,7 @@
       box-shadow:0 10px 22px rgba(0,0,0,.04);
       transition:transform .18s ease, box-shadow .18s ease;
     }
-
-    .item:hover{
-      transform:translateY(-2px);
-      box-shadow:0 16px 30px rgba(0,0,0,.06);
-    }
-
+    .item:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(0,0,0,.06)}
     .item strong{display:block;font-size:15px;margin-bottom:6px}
     .meta{
       display:flex;
@@ -373,14 +355,12 @@
       color:var(--muted);
       margin-bottom:8px;
     }
-
     .actions{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
       margin-top:12px;
     }
-
     .actions button{width:auto;padding:10px 12px;border-radius:12px}
     .note{
       margin-top:12px;
@@ -389,15 +369,25 @@
       background:linear-gradient(135deg, rgba(56,189,248,.12), rgba(167,243,208,.14));
       border:1px solid rgba(15,118,110,.12);
     }
+    .manager-panel{background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70))}
+    .footer-note{margin-top:18px;color:var(--muted);font-size:12px}
 
-    .manager-panel{
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
-    }
+    button.btn-taken{background:linear-gradient(135deg,#c7f0ff,#7dd3fc);color:#0f172a}
+    button.btn-progress{background:linear-gradient(135deg,#fdba74,#fb923c);color:#0f172a}
+    button.btn-resolved{background:linear-gradient(135deg,#34d399,#059669);color:white}
+    button.btn-delete{background:linear-gradient(135deg,#f87171,#dc2626);color:white}
 
-    .footer-note{
-      margin-top:18px;
-      color:var(--muted);
+    .help-row{display:flex;gap:8px;align-items:center}
+    .help-btn{width:auto;min-width:42px;padding:12px 14px;border-radius:50%}
+    .hidden-help{
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#ecfeff;
+      border:1px solid #a5f3fc;
       font-size:12px;
+      color:#134e57;
+      line-height:1.5;
     }
 
     @media (max-width: 1024px){
@@ -516,6 +506,27 @@
               </div>
             </div>
 
+            <div class="row">
+              <div>
+                <label>Numéro de PC</label>
+                <input name="pcNumber" required placeholder="Ex : PC-014" />
+              </div>
+              <div>
+                <label>Adresse IP</label>
+                <div class="help-row">
+                  <input name="ipAddress" required placeholder="Ex : 192.168.1.25" />
+                  <button type="button" id="ipHelpBtn" class="secondary help-btn">?</button>
+                </div>
+                <div id="ipHelpBox" class="hidden hidden-help">
+                  <strong>Pour trouver l’IP :</strong><br>
+                  1. Appuie sur <b>Windows + R</b>.<br>
+                  2. Tape <b>cmd</b> puis Entrée.<br>
+                  3. Tape <b>ipconfig</b> puis Entrée.<br>
+                  4. Regarde la ligne <b>IPv4 Address</b>.
+                </div>
+              </div>
+            </div>
+
             <label>Description détaillée</label>
             <textarea name="description" required placeholder="Décris le problème, ce qui s'est passé et à quel moment."></textarea>
 
@@ -609,7 +620,9 @@
       newUserName: document.getElementById('newUserName'),
       newUserEmail: document.getElementById('newUserEmail'),
       newUserRole: document.getElementById('newUserRole'),
-      newUserCode: document.getElementById('newUserCode')
+      newUserCode: document.getElementById('newUserCode'),
+      ipHelpBtn: document.getElementById('ipHelpBtn'),
+      ipHelpBox: document.getElementById('ipHelpBox')
     };
 
     let currentRole = 'reporter';
@@ -636,6 +649,10 @@
       if (h > 0) return `${h}h ${mm}min`;
       return `${mm}min`;
     };
+
+    els.ipHelpBtn.addEventListener('click', () => {
+      els.ipHelpBox.classList.toggle('hidden');
+    });
 
     function setSessionLabel(){
       els.sessionPill.textContent = currentUser ? (canManage() ? 'Informaticien' : 'Employé') : 'Non connecté';
@@ -731,6 +748,8 @@
           priority: fd.get('priority'),
           site: fd.get('site'),
           service: fd.get('service'),
+          pcNumber: fd.get('pcNumber'),
+          ipAddress: fd.get('ipAddress'),
           description: fd.get('description'),
           reporterName: fd.get('reporterName'),
           reporterEmail: fd.get('reporterEmail'),
@@ -745,6 +764,7 @@
           createdBy: currentUser.email
         });
         els.incidentForm.reset();
+        els.ipHelpBox.classList.add('hidden');
       } catch (e) {
         alert('Erreur lors de la création du signalement.');
       }
@@ -778,6 +798,8 @@
             <span>${i.topic || ''}</span>
             <span>${i.priority || ''}</span>
             <span>${i.site || ''}</span>
+            <span>${i.pcNumber || ''}</span>
+            <span>${i.ipAddress || ''}</span>
             <span>${i.status || ''}</span>
             <span>${fmt(i.createdAt)}</span>
           </div>
