@@ -378,7 +378,8 @@
     button.btn-delete{background:linear-gradient(135deg,#f87171,#dc2626);color:white}
 
     .help-row{display:flex;gap:8px;align-items:center}
-    .help-btn{width:auto;min-width:42px;padding:12px 14px;border-radius:50%}
+    .help-btn{width:auto;min-width:42px;padding:10px 14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+    .help-btn svg{width:16px;height:16px;fill:currentColor}
     .hidden-help{
       margin-top:8px;
       padding:10px 12px;
@@ -515,7 +516,11 @@
                 <label>Adresse IP</label>
                 <div class="help-row">
                   <input name="ipAddress" required placeholder="Ex : 192.168.1.25" />
-                  <button type="button" id="ipHelpBtn" class="secondary help-btn">?</button>
+                  <button type="button" id="ipHelpBtn" class="secondary help-btn" aria-label="Aide pour trouver l'adresse IP">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 3a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 12 5Zm1.5 14h-3v-1.5h.75v-5h-.75V11h2.25v6.5h.75Z"/>
+                    </svg>
+                  </button>
                 </div>
                 <div id="ipHelpBox" class="hidden hidden-help">
                   <strong>Pour trouver l’IP :</strong><br>
